@@ -16,10 +16,10 @@
         <ul class="navbar-nav mr-right">
             {% if is_granted('ROLE_USER') %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('app_dashboard') }}">Dashboard</a>
+                    <a class="nav-link" href="{{ url('easyadmin') }}">App</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('app_profile') }}">Profile</a>
+                    <a class="nav-link" href="{{ url('logout') }}">Logout</a>
                 </li>
             {% else %}
                 <li class="nav-item">
