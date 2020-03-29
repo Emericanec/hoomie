@@ -3,8 +3,7 @@
 declare(strict_types=1);
 
 namespace App\Entity\Form;
-use Symfony\Component\Validator\Constraints;
-use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Validator\UniqueEntity;
 
 /**
@@ -20,14 +19,13 @@ use App\Validator\UniqueEntity;
 class RegistrationForm implements RegistrationFormInterface
 {
     /**
-     * @ORM\Id()
-     * @Constraints\NotBlank
-     * @Constraints\Email
+     * @Assert\NotBlank
+     * @Assert\Email
      */
     protected ?string $email;
 
     /**
-     * @Constraints\NotBlank
+     * @Assert\NotBlank
      */
     protected ?string $password;
 

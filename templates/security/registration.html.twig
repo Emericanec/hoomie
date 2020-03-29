@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hoomie{% endblock %}
+
+{% block body %}
+    <div class="row align-items-center" style="margin-top: 100px;">
+        <div class="col col-sm-6 offset-3">
+            <div class="card">
+                <article class="card-body">
+                    <a href="{{ url('login') }}" class="float-right btn btn-outline-primary">Sign in</a>
+                    <h4 class="card-title mb-4 mt-1">Sign up</h4>
+                    {{ form(form) }}
+                </article>
+            </div>
+        </div>
+    </div>
+{% endblock %}
