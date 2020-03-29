@@ -1,4 +1,6 @@
 {
+    "name": "emericanec/hoomie",
+    "description": "Hoomie.co",
     "type": "project",
     "license": "proprietary",
     "require": {
