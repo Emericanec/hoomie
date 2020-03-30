@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Form\Type\LoginType;
 use App\Form\Type\RegistrationType;
 use App\Processor\RegistrationProcessor;
+use App\Service\Instagram\InstagramApi;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,6 +24,7 @@ class SecurityController extends AbstractController
      * @Route("/login", name="login")
      * @param AuthenticationUtils $authenticationUtils
      * @return Response
+     * @throws \Exception
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -33,9 +35,12 @@ class SecurityController extends AbstractController
         $loginForm->setEmail($lastUsername);
         $form = $this->createForm(LoginType::class, $loginForm);
 
+        $instagramApi = InstagramApi::getInstance();
+
         return $this->render('security/login.html.twig', [
             'form' => $form->createView(),
-            'error' => $error
+            'error' => $error,
+            'loginUrl' => $instagramApi->getLoginUrl()
         ]);
     }
 
