@@ -1,7 +1,4 @@
 {
-    "cosenary/instagram": {
-        "version": "v2.3"
-    },
     "doctrine/annotations": {
         "version": "1.0",
         "recipe": {
