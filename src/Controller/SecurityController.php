@@ -40,7 +40,7 @@ class SecurityController extends AbstractController
         return $this->render('security/login.html.twig', [
             'form' => $form->createView(),
             'error' => $error,
-            'loginUrl' => $instagramApi->getLoginUrl()
+            'loginUrl' => $instagramApi->getLoginUrl(['user_profile', 'user_media'])
         ]);
     }
 
