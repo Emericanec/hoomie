@@ -106,6 +106,9 @@
     "egulias/email-validator": {
         "version": "2.1.17"
     },
+    "espresso-dev/instagram-basic-display-php": {
+        "version": "v1.1.2"
+    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },

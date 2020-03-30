@@ -4,21 +4,21 @@ declare(strict_types=1);
 
 namespace App\Service\Instagram;
 
+use EspressoDev\InstagramBasicDisplay\InstagramBasicDisplay;
 use Exception;
-use MetzWeb\Instagram\Instagram;
 
 class InstagramApi
 {
     /**
-     * @return Instagram
+     * @return InstagramBasicDisplay
      * @throws Exception
      */
-    public static function getInstance(): Instagram
+    public static function getInstance(): InstagramBasicDisplay
     {
-        return new Instagram([
-            'apiKey' => self::getAppId(),
-            'apiSecret' => self::getAppSecret(),
-            'apiCallback' => self::getAppCallback()
+        return new InstagramBasicDisplay([
+            'appId' => self::getAppId(),
+            'appSecret' => self::getAppSecret(),
+            'redirectUri' => self::getAppCallback()
         ]);
     }
 
