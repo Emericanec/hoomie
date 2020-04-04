@@ -10,6 +10,7 @@ class Deploy
     private string $output = '';
 
     private array $commands = [
+        'whoami',
         'git pull'
     ];
 
