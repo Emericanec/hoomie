@@ -11,7 +11,7 @@ class Deploy
 
     private array $commands = [
         'whoami',
-        'git pull'
+        'sudo git pull'
     ];
 
     public function run(): string
