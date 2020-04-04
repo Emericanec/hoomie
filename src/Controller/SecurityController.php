@@ -11,6 +11,8 @@ use App\Form\Type\LoginType;
 use App\Form\Type\RegistrationType;
 use App\Processor\RegistrationProcessor;
 use App\Service\Instagram\InstagramApi;
+use Exception;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +26,7 @@ class SecurityController extends AbstractController
      * @Route("/login", name="login")
      * @param AuthenticationUtils $authenticationUtils
      * @return Response
-     * @throws \Exception
+     * @throws Exception
      */
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -71,9 +73,9 @@ class SecurityController extends AbstractController
     /**
      * @Route("/logout", name="logout", methods={"GET"})
      */
-    public function logout()
+    public function logout(): void
     {
         // controller can be blank: it will never be executed!
-        throw new \Exception('Don\'t forget to activate logout in security.yaml');
+        throw new RuntimeException('Don\'t forget to activate logout in security.yaml');
     }
 }
