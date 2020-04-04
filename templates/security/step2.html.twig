@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+    <div class="row align-items-center" style="margin-top: 100px;">
+        <div class="col col-md-6 offset-md-3 col-sm-10 offset-sm-1 text-center">
+            <h3>Provide your email</h3>
+
+            <p class="text-black-50">Provide your email for notifications</p><br>
+
+            <div class="card">
+                <article class="card-body">
+                    <form method="post">
+                        <div class="form-group">
+                            <input type="email" class="form-control" name="email" placeholder="Email">
+                        </div>
+                        <button class="btn btn-info">Confirm</button>
+                    </form>
+                </article>
+            </div>
+        </div>
+    </div>
+{% endblock %}

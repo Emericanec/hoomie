@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Form\LoginForm;
-use App\Entity\Form\RegistrationForm;
 use App\Entity\User;
 use App\Form\Type\LoginType;
-use App\Form\Type\RegistrationType;
-use App\Processor\RegistrationProcessor;
+use App\Security\Security;
 use App\Service\Instagram\InstagramApi;
 use Exception;
 use RuntimeException;
@@ -17,7 +15,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
@@ -47,27 +44,38 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * @Route("/registration", name="registration")
+     * @Route("/oauth", name="oauth")
+     * @return Response
+     * @throws Exception
+     */
+    public function oauth(): Response
+    {
+        return $this->redirect('login');
+    }
+
+    /**
+     * @Route("/step2", name="step2")
+     * @param Security $security
      * @param Request $request
-     * @param UserPasswordEncoderInterface $passwordEncoder
      * @return Response
      */
-    public function registration(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    public function step2(Security $security, Request $request): Response
     {
-        $registrationForm = new RegistrationForm();
-        $form = $this->createForm(RegistrationType::class, $registrationForm);
+        $this->denyAccessUnlessGranted(User::ROLE);
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = new User();
-            $objectManager = $this->getDoctrine()->getManager();
-            (new RegistrationProcessor($form, $user, $passwordEncoder, $objectManager))->process();
-            return $this->redirectToRoute('home');
+        $email = $request->request->get('email');
+        $user = $security->getUser();
+
+        if (null !== $email && null !== $user) {
+            $user->setEmail($email);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+
+            return $this->redirect('app_main');
         }
 
-        return $this->render('security/registration.html.twig', [
-            'form' => $form->createView()
-        ]);
+        return $this->render('security/step2.html.twig');
     }
 
     /**
@@ -75,7 +83,6 @@ class SecurityController extends AbstractController
      */
     public function logout(): void
     {
-        // controller can be blank: it will never be executed!
         throw new RuntimeException('Don\'t forget to activate logout in security.yaml');
     }
 }

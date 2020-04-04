@@ -10,6 +10,11 @@ nav.navbar .btn {
     font-size: 1.5rem;
 }
 
+html {
+    background-color: #f8f9fa;
+}
+
 body {
     font-family: 'Lato', sans-serif;
+    background-color: #f8f9fa;
 }

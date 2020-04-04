@@ -5,14 +5,23 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\Index;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Table(
+ *     name="user",
+ *     indexes={
+ *          @Index(name="idx_instagram_user_id", columns={"instagram_user_id"})
+ *     },
+ *)
  */
-class User implements UserInterface
+class User implements InstagramUserInterface
 {
-    public const SALT = '8c20ffeec06fcd5744a8fa38ef8c03a1';
+    public const ROLE = 'ROLE_USER';
+
+    private const SALT = '8c20ffeec06fcd5744a8fa38ef8c03a1';
 
     /**
      * @ORM\Id()
@@ -22,27 +31,34 @@ class User implements UserInterface
     private int $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=180, nullable=true)
      */
-    private string $email;
+    private ?string $email = null;
 
     /**
-     * @ORM\Column(type="json")
+     * @var string
+     * @ORM\Column(name="instagram_access_token", type="string")
      */
-    private array $roles = [];
+    private string $instagramAccessToken;
 
     /**
-     * @var string The hashed password
-     * @ORM\Column(type="string")
+     * @var string
+     * @ORM\Column(name="instagram_nickname", type="string")
      */
-    private string $password;
+    private string $instagramNickname;
+
+    /**
+     * @var string
+     * @ORM\Column(name="instagram_user_id", type="string", unique=true)
+     */
+    private string $instagramUserId;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
@@ -57,49 +73,61 @@ class User implements UserInterface
     /**
      * A visual identifier that represents this user.
      *
-     * @see UserInterface
+     * @see InstagramUserInterface
      */
     public function getUsername(): string
     {
-        return $this->email;
+        return $this->getInstagramNickname();
     }
 
     /**
-     * @see UserInterface
+     * @see InstagramUserInterface
      */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
+        return [self::ROLE];
     }
 
     /**
-     * @see UserInterface
+     * @see InstagramUserInterface
      */
     public function getPassword(): string
     {
-        return $this->password ?? '';
+        return '';
     }
 
-    public function setPassword(string $password): self
+    public function getInstagramAccessToken(): string
     {
-        $this->password = $password;
+        return $this->instagramAccessToken;
+    }
 
-        return $this;
+    public function setInstagramAccessToken(string $instagramAccessToken): void
+    {
+        $this->instagramAccessToken = $instagramAccessToken;
+    }
+
+    public function getInstagramUserId(): string
+    {
+        return $this->instagramUserId;
+    }
+
+    public function setInstagramUserId(string $instagramUserId): void
+    {
+        $this->instagramUserId = $instagramUserId;
+    }
+
+    public function getInstagramNickname(): string
+    {
+        return $this->instagramNickname;
+    }
+
+    public function setInstagramNickname(string $instagramNickname): void
+    {
+        $this->instagramNickname = $instagramNickname;
     }
 
     /**
-     * @see UserInterface
+     * @see InstagramUserInterface
      */
     public function getSalt(): string
     {
@@ -108,7 +136,7 @@ class User implements UserInterface
     }
 
     /**
-     * @see UserInterface
+     * @see InstagramUserInterface
      */
     public function eraseCredentials(): void
     {
@@ -118,6 +146,6 @@ class User implements UserInterface
 
     public function __toString(): string
     {
-        return $this->email;
+        return $this->getInstagramNickname();
     }
 }
