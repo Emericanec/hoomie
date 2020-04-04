@@ -12,7 +12,7 @@ class Deploy
     private array $commands = [
         'whoami',
         'sudo git pull',
-        'yarn encore dev',
+        '/usr/local/bin/yarn encore dev',
     ];
 
     public function run(): string
