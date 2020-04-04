@@ -1,14 +1,13 @@
 <?php
 
 declare(strict_types=1);
-
 class Deploy
 {
     private const ACCESS_KEY = '8c20ffeec06fcd5744a8fa38ef8c03a1';
 
     private const HTML_EOL = '<br/>';
 
-    private string $output;
+    private string $output = '';
 
     private array $commands = [
         'git pull'
