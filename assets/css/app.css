@@ -9,3 +9,7 @@ nav.navbar .navbar-brand{
 nav.navbar .btn {
     font-size: 1.5rem;
 }
+
+body {
+    font-family: 'Lato', sans-serif;
+}

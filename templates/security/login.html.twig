@@ -3,19 +3,18 @@
 {% block title %}Login{% endblock %}
 
 {% block body %}
-    <a href="{{ loginUrl }}">Instagram login</a>
     <div class="row align-items-center" style="margin-top: 100px;">
-        <div class="col col-sm-6 offset-3">
-            <div class="card">
+        <div class="col col-sm-6 offset-3 text-center">
+            <h3>Connect Instagram Profile</h3>
+
+            <p class="text-black-50">Sign in with Instagram to create yor first shop</p><br>
+
+            <a class="btn btn-lg btn-info" href="{{ loginUrl }}">Sign in with Instagram</a>
+            <!--<div class="card">
                 <article class="card-body">
-                    <a href="{{ url('registration') }}" class="float-right btn btn-outline-primary">Sign up</a>
-                    <h4 class="card-title mb-4 mt-1">Sign in</h4>
-                    {% if error %}
-                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                    {% endif %}
-                    {{ form(form) }}
+
                 </article>
-            </div>
+            </div>-->
         </div>
     </div>
 {% endblock %}
