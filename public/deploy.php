@@ -36,7 +36,8 @@ class Deploy
     {
         foreach ($this->commands as $command) {
             $tmp = shell_exec("$command 2>&1");
-            $this->output .= htmlentities(trim($tmp)) . self::HTML_EOL;
+            $this->output .= "{$command} output:" . self::HTML_EOL;
+            $this->output .= htmlentities(trim($tmp)) . self::HTML_EOL . self::HTML_EOL;
         }
     }
 }
