@@ -41,4 +41,4 @@ class Deploy
     }
 }
 
-(new Deploy())->run();
+echo (new Deploy())->run();
