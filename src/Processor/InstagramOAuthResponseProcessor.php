@@ -20,7 +20,7 @@ class InstagramOAuthResponseProcessor
         $this->objectManager = $objectManager;
     }
 
-    public function process(): User
+    public function createUser(): User
     {
         $user = new User();
         $user->setInstagramAccessToken($this->instagramOAuthTokenResponse->getAccessToken());

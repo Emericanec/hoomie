@@ -15,6 +15,7 @@ class MainController extends AbstractController implements AppControllerInterfac
 {
     public function before(): ?Response
     {
+        // todo implement in Abstract class
         if (!$this->isGranted(User::ROLE)) {
             return $this->redirect('/login');
         }

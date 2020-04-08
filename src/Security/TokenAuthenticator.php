@@ -6,7 +6,6 @@ namespace App\Security;
 
 use App\Entity\InstagramUserInterface;
 use App\Entity\User;
-use App\Exception\InstagramOAuthException;
 use App\Processor\InstagramOAuthProcessor;
 use App\Processor\InstagramOAuthResponseProcessor;
 use App\Repository\UserRepository;
@@ -84,7 +83,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         $this->user = $userRepository->findOneBy(['instagramUserId' => $instagramResponse->getUserId()]);
 
         if (null === $this->user) {
-            $this->user = (new InstagramOAuthResponseProcessor($this->em, $instagramResponse))->process();
+            $this->user = (new InstagramOAuthResponseProcessor($this->em, $instagramResponse))->createUser();
         }
 
         return $this->user;

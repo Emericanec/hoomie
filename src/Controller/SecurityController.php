@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Form\LoginForm;
 use App\Entity\User;
-use App\Form\Type\LoginType;
 use App\Processor\DefaultMailProcessor;
 use App\Security\Security;
 use App\Service\Instagram\InstagramApi;
@@ -17,32 +15,20 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
     /**
      * @Route("/login", name="login")
-     * @param AuthenticationUtils $authenticationUtils
      * @return Response
      * @throws Exception
      */
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(): Response
     {
-        $error = $authenticationUtils->getLastAuthenticationError();
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        $loginForm = new LoginForm();
-        $loginForm->setEmail($lastUsername);
-        $form = $this->createForm(LoginType::class, $loginForm);
-
         $instagramApi = InstagramApi::getInstance();
 
         return $this->render('security/login.html.twig', [
-            'form' => $form->createView(),
-            'error' => $error,
             'loginUrl' => $instagramApi->getLoginUrl()
         ]);
     }
@@ -76,6 +62,7 @@ class SecurityController extends AbstractController
      */
     public function step2(MailerInterface $mailer, Security $security, Request $request): Response
     {
+        // todo refactor this
         $this->denyAccessUnlessGranted(User::ROLE);
 
         $email = $request->request->get('email');
