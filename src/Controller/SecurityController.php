@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\Form\LoginForm;
 use App\Entity\User;
 use App\Form\Type\LoginType;
+use App\Processor\DefaultMailProcessor;
 use App\Security\Security;
 use App\Service\Instagram\InstagramApi;
 use Exception;
@@ -14,6 +15,9 @@ use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -54,25 +58,45 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * @Route("/oauth/error", name="oauth_error")
+     * @return Response
+     */
+    public function oauth_error(): Response
+    {
+        return $this->render('security/oauth_error.html.twig');
+    }
+
+    /**
      * @Route("/step2", name="step2")
+     * @param MailerInterface $mailer
      * @param Security $security
      * @param Request $request
      * @return Response
+     * @throws TransportExceptionInterface
      */
-    public function step2(Security $security, Request $request): Response
+    public function step2(MailerInterface $mailer, Security $security, Request $request): Response
     {
         $this->denyAccessUnlessGranted(User::ROLE);
 
         $email = $request->request->get('email');
+
+        /** @var User $user */
         $user = $security->getUser();
 
-        if (null !== $email && null !== $user) {
+        if (null !== $user->getEmail()) {
+            return $this->redirectToRoute('app_main');
+        }
+
+        if (null !== $email) {
             $user->setEmail($email);
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
 
-            return $this->redirect('app_main');
+            $mailProcessor = new DefaultMailProcessor($mailer, 'Confirm your email', 'email/confirm_email.html.twig');
+            $mailProcessor->send($user->getEmail(), []);
+
+            return $this->redirectToRoute('app_main');
         }
 
         return $this->render('security/step2.html.twig');

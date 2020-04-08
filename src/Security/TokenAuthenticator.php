@@ -6,6 +6,7 @@ namespace App\Security;
 
 use App\Entity\InstagramUserInterface;
 use App\Entity\User;
+use App\Exception\InstagramOAuthException;
 use App\Processor\InstagramOAuthProcessor;
 use App\Processor\InstagramOAuthResponseProcessor;
 use App\Repository\UserRepository;
@@ -19,6 +20,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
+use Throwable;
 
 class TokenAuthenticator extends AbstractGuardAuthenticator
 {
@@ -71,7 +73,11 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
             return null;
         }
 
-        $instagramResponse = (new InstagramOAuthProcessor($credentials))->process();
+        try {
+            $instagramResponse = (new InstagramOAuthProcessor($credentials))->process();
+        } catch (Throwable $e) {
+            return null;
+        }
 
         /** @var UserRepository $userRepository */
         $userRepository = $this->em->getRepository(User::class);
@@ -101,7 +107,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): RedirectResponse
     {
-        return new RedirectResponse('oauth_error');
+        return new RedirectResponse('/oauth/error');
     }
 
     /**
@@ -113,10 +119,10 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey): RedirectResponse
     {
         if (null === $this->user->getEmail()) {
-            return new RedirectResponse('step2');
+            return new RedirectResponse('/step2');
         }
 
-        return new RedirectResponse('home');
+        return new RedirectResponse('/app/main');
     }
 
     /**

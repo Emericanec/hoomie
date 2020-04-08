@@ -1,0 +1,15 @@
+<svg viewBox="0 0 500 500" version="1.1" id="svg_null">
+    <g id="root" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="shapes" transform="translate(95.000000, 168.000000)">
+            <rect id="shape.primary" fill="#c72767" opacity=".5" x="0" y="0" width="120" height="120" rx="60"></rect>
+            <rect id="shape.secondary" fill="#ec9454" opacity=".5" x="95" y="0" width="120" height="120" rx="60"></rect>
+            <rect id="shape.primary" fill="#c72767" opacity=".4" x="12" y="12" width="96" height="96" rx="48"></rect>
+            <rect id="shape.secondary" fill="#ec9454" opacity=".4" x="107" y="12" width="96" height="96" rx="48"></rect>
+            <rect id="shape.primary" fill="#c72767" opacity=".3" x="36" y="36" width="48" height="48" rx="24"></rect>
+            <rect id="shape.secondary" fill="#ec9454" opacity=".3" x="131" y="36" width="48" height="48" rx="24"></rect>
+            <rect id="shape.accent" fill="#fabc41" opacity=".5" x="190" y="0" width="120" height="120" rx="60"></rect>
+            <rect id="shape.accent" fill="#fabc41" opacity=".4" x="202" y="12" width="96" height="96" rx="48"></rect>
+            <rect id="shape.accent" fill="#fabc41" opacity=".3" x="226" y="36" width="48" height="48" rx="24"></rect>
+        </g>
+    </g>
+</svg>

@@ -13,3 +13,11 @@ import '../css/app.css';
 import $ from 'jquery';
 
 require('bootstrap');
+
+$(document).ready(function () {
+
+    $('.first-button').on('click', function () {
+
+        $('.animated-icon1').toggleClass('open');
+    });
+});

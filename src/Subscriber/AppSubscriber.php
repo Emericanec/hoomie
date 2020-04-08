@@ -24,9 +24,12 @@ class AppSubscriber implements EventSubscriberInterface
         }
 
         if ($controller instanceof AppControllerInterface) {
-            $event->setController(static function () use ($controller): ?Response {
-                return $controller->before();
-            });
+            $response = $controller->before();
+            if ($response instanceof Response) {
+                $event->setController(static function () use ($response): Response {
+                    return $response;
+                });
+            }
         }
     }
 
