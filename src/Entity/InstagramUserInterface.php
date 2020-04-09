@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-interface InstagramUserInterface extends \Symfony\Component\Security\Core\User\UserInterface
+use Symfony\Component\Security\Core\User\UserInterface;
+
+interface InstagramUserInterface extends UserInterface
 {
     public function getId(): ?int;
 
@@ -23,4 +25,8 @@ interface InstagramUserInterface extends \Symfony\Component\Security\Core\User\U
     public function getInstagramNickname(): string;
 
     public function setInstagramNickname(string $instagramNickname): void;
+
+    public function setProfileImageUrl(string $profileImageUrl): void;
+
+    public function getProfileImageUrl(): ?string;
 }

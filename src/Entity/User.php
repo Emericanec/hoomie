@@ -52,6 +52,12 @@ class User implements InstagramUserInterface
      */
     private string $instagramUserId;
 
+    /**
+     * @var string
+     * @ORM\Column(name="profile_image_url", type="string", nullable=true)
+     */
+    private ?string $profileImageUrl = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -146,5 +152,15 @@ class User implements InstagramUserInterface
     public function __toString(): string
     {
         return $this->getInstagramNickname();
+    }
+
+    public function setProfileImageUrl(string $profileImageUrl): void
+    {
+        $this->profileImageUrl = $profileImageUrl;
+    }
+
+    public function getProfileImageUrl(): ?string
+    {
+        return $this->profileImageUrl;
     }
 }

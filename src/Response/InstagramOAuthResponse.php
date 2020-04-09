@@ -12,11 +12,14 @@ class InstagramOAuthResponse
 
     private string $userId;
 
-    public function __construct(string $accessToken, string $userId, string $nickname)
+    private string $profileImageUrl;
+
+    public function __construct(string $accessToken, string $userId, string $nickname, string $profileImageUrl)
     {
         $this->accessToken = $accessToken;
         $this->userId = $userId;
         $this->nickname = $nickname;
+        $this->profileImageUrl = $profileImageUrl;
     }
 
     public function getAccessToken(): string
@@ -32,5 +35,10 @@ class InstagramOAuthResponse
     public function getUserId(): string
     {
         return $this->userId;
+    }
+
+    public function getProfileImageUrl(): string
+    {
+        return $this->profileImageUrl;
     }
 }

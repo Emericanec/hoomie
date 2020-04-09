@@ -11,6 +11,8 @@ use Exception;
 
 class InstagramOAuthProcessor
 {
+    private const PROFILE_FIELDS = 'account_type, id, media_count, username';
+
     private string $code;
 
     public function __construct(string $code)
@@ -28,6 +30,7 @@ class InstagramOAuthProcessor
         $token = $instagramApi->getOAuthToken($this->code, true);
         $accessToken = $instagramApi->getLongLivedToken($token, true);
         $instagramApi->setAccessToken($accessToken);
+        $instagramApi->setUserFields(self::PROFILE_FIELDS);
         $profile = $instagramApi->getUserProfile();
 
         if (!$this->isValid($profile)) {
@@ -35,7 +38,9 @@ class InstagramOAuthProcessor
             throw new InstagramOAuthException($errorMessage);
         }
 
-        return new InstagramOAuthResponse($accessToken, $profile->id, $profile->username);
+        $profileImageUrl = InstagramApi::getProfileImageUrl($profile->username);
+
+        return new InstagramOAuthResponse($accessToken, $profile->id, $profile->username, $profileImageUrl);
     }
 
     private function isValid($profile): bool

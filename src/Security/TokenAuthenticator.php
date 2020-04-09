@@ -82,9 +82,10 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         $userRepository = $this->em->getRepository(User::class);
         $this->user = $userRepository->findOneBy(['instagramUserId' => $instagramResponse->getUserId()]);
 
-        if (null === $this->user) {
-            $this->user = (new InstagramOAuthResponseProcessor($this->em, $instagramResponse))->createUser();
-        }
+        $processor = new InstagramOAuthResponseProcessor($this->em, $instagramResponse);
+        $this->user = null === $this->user ? $processor->createUser() : $processor->updateUser($this->user);
+
+        $this->user->setProfileImageUrl($instagramResponse->getProfileImageUrl());
 
         return $this->user;
     }

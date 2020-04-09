@@ -30,10 +30,10 @@
             <!-- Sidebar user panel (optional) -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="image">
-                    <img class="img-circle elevation-2" src="https://scontent-frx5-1.cdninstagram.com/v/t51.2885-19/s320x320/54247715_2195250907184796_8702997699101720576_n.jpg?_nc_ht=scontent-frx5-1.cdninstagram.com&_nc_ohc=20KkGzlBKmcAX8uZM_1&oh=5ee0e2d8da3c16bbedb778f4fa3c8b9a&oe=5EBA5D74">
+                    <img class="img-circle elevation-2" src="{{ app.user.profileImageUrl }}" alt="{{ app.user.instagramNickname }}">
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block">took_took_kto_tam</a>
+                    <a href="https://www.instagram.com/{{ app.user.instagramNickname }}" target="_blank" class="d-block">{{ app.user.instagramNickname }}</a>
                 </div>
             </div>
 

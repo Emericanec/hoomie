@@ -26,6 +26,18 @@ class InstagramOAuthResponseProcessor
         $user->setInstagramAccessToken($this->instagramOAuthTokenResponse->getAccessToken());
         $user->setInstagramUserId($this->instagramOAuthTokenResponse->getUserId());
         $user->setInstagramNickname($this->instagramOAuthTokenResponse->getNickname());
+        $user->setProfileImageUrl($this->instagramOAuthTokenResponse->getProfileImageUrl());
+
+        $this->objectManager->persist($user);
+
+        $this->objectManager->flush();
+
+        return $user;
+    }
+
+    public function updateUser(User $user): User
+    {
+        $user->setProfileImageUrl($this->instagramOAuthTokenResponse->getProfileImageUrl());
 
         $this->objectManager->persist($user);
 
