@@ -16,15 +16,15 @@ class MainController extends AbstractController implements AppControllerInterfac
     public function before(): ?Response
     {
         // todo implement in Abstract class
-        if (!$this->isGranted(User::ROLE)) {
+        /*if (!$this->isGranted(User::ROLE)) {
             return $this->redirect('/login');
         }
 
         /** @var InstagramUserInterface $user */
-        $user = $this->getUser();
+        /*$user = $this->getUser();
         if (null === $user->getEmail()) {
             return $this->redirect('/step2');
-        }
+        }*/
 
         return null;
     }
