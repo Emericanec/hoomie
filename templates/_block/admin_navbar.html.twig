@@ -1,0 +1,64 @@
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a id="main_logo_header" href="{{ url('app_main') }}" class="brand-link" style="text-align: center">
+        <svg viewBox="0 0 310 120" version="1.1" id="svg_null" style="width: 50%;">
+            <g id="root" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <g id="shapes" transform="translate(0, 0)">
+                    <rect id="shape.primary" fill="#c72767" opacity=".5" x="0" y="0" width="120" height="120"
+                          rx="60"></rect>
+                    <rect id="shape.secondary" fill="#ec9454" opacity=".5" x="95" y="0" width="120" height="120"
+                          rx="60"></rect>
+                    <rect id="shape.primary" fill="#c72767" opacity=".4" x="12" y="12" width="96" height="96"
+                          rx="48"></rect>
+                    <rect id="shape.secondary" fill="#ec9454" opacity=".4" x="107" y="12" width="96" height="96"
+                          rx="48"></rect>
+                    <rect id="shape.primary" fill="#c72767" opacity=".3" x="36" y="36" width="48" height="48"
+                          rx="24"></rect>
+                    <rect id="shape.secondary" fill="#ec9454" opacity=".3" x="131" y="36" width="48" height="48"
+                          rx="24"></rect>
+                    <rect id="shape.accent" fill="#fabc41" opacity=".5" x="190" y="0" width="120" height="120"
+                          rx="60"></rect>
+                    <rect id="shape.accent" fill="#fabc41" opacity=".4" x="202" y="12" width="96" height="96"
+                          rx="48"></rect>
+                    <rect id="shape.accent" fill="#fabc41" opacity=".3" x="226" y="36" width="48" height="48"
+                          rx="24"></rect>
+                </g>
+            </g>
+        </svg><br>
+        <span class="brand-text font-weight-light" style="font-size: 1.5rem;">Hoomie</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img class="img-circle elevation-2" src="{{ app.user.profileImageUrl }}" alt="{{ app.user.instagramNickname }}">
+            </div>
+            <div class="info">
+                <a href="https://www.instagram.com/{{ app.user.instagramNickname }}" target="_blank" class="d-block">{{ app.user.instagramNickname }}</a>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <p>Dashboard</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{{ url('logout') }}" class="nav-link">
+                        <i class="nav-icon fas fa-sign-out-alt"></i>
+                        <p>Logout</p>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
