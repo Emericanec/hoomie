@@ -58,6 +58,12 @@ class User implements InstagramUserInterface
      */
     private ?string $profileImageUrl = null;
 
+    /**
+     * @var bool
+     * @ORM\Column(name="is_activated", type="boolean")
+     */
+    private bool $isActivated = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -162,5 +168,15 @@ class User implements InstagramUserInterface
     public function getProfileImageUrl(): ?string
     {
         return $this->profileImageUrl;
+    }
+
+    public function setIsActivated(bool $value): void
+    {
+        $this->isActivated = $value;
+    }
+
+    public function getIsActivated(): bool
+    {
+        return $this->isActivated;
     }
 }

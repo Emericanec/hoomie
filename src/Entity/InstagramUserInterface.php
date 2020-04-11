@@ -29,4 +29,8 @@ interface InstagramUserInterface extends UserInterface
     public function setProfileImageUrl(string $profileImageUrl): void;
 
     public function getProfileImageUrl(): ?string;
+
+    public function setIsActivated(bool $value): void;
+
+    public function getIsActivated(): bool;
 }
