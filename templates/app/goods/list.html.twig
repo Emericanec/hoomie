@@ -1,0 +1,49 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Hoomie{% endblock %}
+
+{% block body %}
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Goods list</h1>
+                    <br>
+                    <a class="btn btn-info" href="{{ url("app_goods_add") }}">
+                        <i class="nav-icon fas fa-plus"></i>
+                        Add
+                    </a>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-12">
+                {{ table(goods, {
+                    'columns' : [
+                        {
+                            'title' : 'ID',
+                            'getter' : 'getId'
+                        },
+                        {
+                            'title' : 'URL',
+                            'getter' : 'getUrl'
+                        },
+                        {
+                            'title' : 'Tite',
+                            'getter' : 'getTitle'
+                        },
+                        {
+                            'title' : 'Description',
+                            'getter' : 'getDescription'
+                        },
+                    ]
+                }) }}
+            </div>
+        </div>
+    </section>
+{% endblock %}

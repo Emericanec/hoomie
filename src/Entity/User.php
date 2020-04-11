@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 
@@ -63,6 +65,12 @@ class User implements InstagramUserInterface
      * @ORM\Column(name="is_activated", type="boolean")
      */
     private bool $isActivated = false;
+
+    /**
+     * @var Collection|Goods[]
+     * @ORM\OneToMany(targetEntity="App\Entity\Goods", mappedBy="user")
+     */
+    private Collection $goods;
 
     public function getId(): ?int
     {
@@ -178,5 +186,13 @@ class User implements InstagramUserInterface
     public function getIsActivated(): bool
     {
         return $this->isActivated;
+    }
+
+    /**
+     * @return Collection|Goods[]
+     */
+    public function getGoods(): Collection
+    {
+        return $this->goods;
     }
 }

@@ -36,6 +36,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->_em->flush();
     }
 
+    public function findByNickname(string $nickname): ?User
+    {
+        return $this->findOneBy(['instagramNickname' => $nickname]);
+    }
+
     // /**
     //  * @return User[] Returns an array of User objects
     //  */
