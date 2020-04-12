@@ -8,6 +8,7 @@ use App\Controller\AppControllerInterface;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Twig\Environment;
 
 abstract class AbstractAppController extends AbstractController implements AppControllerInterface
 {
@@ -31,5 +32,12 @@ abstract class AbstractAppController extends AbstractController implements AppCo
     public function getCurrentUser(): User
     {
         return $this->user;
+    }
+
+    public function getTwig(): Environment
+    {
+        /** @var Environment $environment */
+        $environment = $this->get('twig');
+        return $environment;
     }
 }

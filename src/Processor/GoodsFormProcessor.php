@@ -14,10 +14,13 @@ class GoodsFormProcessor
 
     private GoodsForm $goodsForm;
 
-    public function __construct(ObjectManager $objectManager, GoodsForm $goodsForm)
+    private Goods $model;
+
+    public function __construct(ObjectManager $objectManager, GoodsForm $goodsForm, Goods $model)
     {
         $this->objectManager = $objectManager;
         $this->goodsForm = $goodsForm;
+        $this->model = $model;
     }
 
     public function process(): ?Goods
@@ -26,14 +29,15 @@ class GoodsFormProcessor
             return null;
         }
 
-        $model = new Goods();
-        $model->setUser($this->goodsForm->getUser());
-        $model->setTitle($this->goodsForm->getTitle());
-        $model->setDescription($this->goodsForm->getDescription());
+        $this->model->setUser($this->goodsForm->getUser());
+        $this->model->setTitle($this->goodsForm->getTitle());
+        $this->model->setDescription($this->goodsForm->getDescription());
+        $this->model->setUrl($this->goodsForm->getUrl());
+        $this->model->setPrice($this->goodsForm->getPrice());
 
-        $this->objectManager->persist($model);
+        $this->objectManager->persist($this->model);
         $this->objectManager->flush();
 
-        return $model;
+        return $this->model;
     }
 }

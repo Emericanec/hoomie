@@ -4,17 +4,16 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\Index;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(
  *     name="user",
  *     indexes={
- *          @Index(name="idx_instagram_user_id", columns={"instagram_user_id"})
+ *          @ORM\Index(name="idx_instagram_user_id", columns={"instagram_user_id"}),
+ *          @ORM\Index(name="idx_instagram_nickname", columns={"instagram_nickname"})
  *     },
  *)
  */
@@ -44,7 +43,7 @@ class User implements InstagramUserInterface
 
     /**
      * @var string
-     * @ORM\Column(name="instagram_nickname", type="string")
+     * @ORM\Column(name="instagram_nickname", type="string", unique=true)
      */
     private string $instagramNickname;
 

@@ -20,12 +20,29 @@ class GoodsRepository extends ServiceEntityRepository
         parent::__construct($registry, Goods::class);
     }
 
+    public function findOneVisibleBy(array $criteria, array $orderBy = null): ?Goods
+    {
+        $criteria = array_merge(['status' => Goods::STATUS_ACTIVE], $criteria);
+        return $this->findOneBy($criteria, $orderBy);
+    }
+
+    public function findVisible($id): ?Goods
+    {
+        return $this->findOneVisibleBy(['id' => $id]);
+    }
+
+    public function findVisibleBy(array $criteria, array $orderBy = null, $limit = null, $offset = null): array
+    {
+        $criteria = array_merge(['status' => Goods::STATUS_ACTIVE], $criteria);
+        return $this->findBy($criteria, $orderBy, $limit, $offset);
+    }
+
     /**
      * @param int $userId
      * @return User[]
      */
     public function findByUserId(int $userId): array
     {
-        return $this->findBy(['user' => $userId]);
+        return $this->findVisibleBy(['user' => $userId]);
     }
 }

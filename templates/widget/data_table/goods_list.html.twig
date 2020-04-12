@@ -1,0 +1,18 @@
+<table class="table table-bordered table-hover dataTable" role="grid">
+    <thead>
+    <tr role="row">
+        {% for column in builder.getColumns() %}
+            <th class="sorting_asc" tabindex="0" rowspan="1" colspan="1" style="{{ column.getStyle() }}">{{ column.getTitle() }}</th>
+        {% endfor %}
+    </tr>
+    </thead>
+    <tbody>
+    {% for one in data %}
+        <tr role="row" class="odd">
+            {% for column in builder.getColumns() %}
+                <td>{{ column.getClosure().call(one, one) | raw }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

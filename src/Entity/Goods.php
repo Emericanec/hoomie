@@ -4,13 +4,28 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use RuntimeException;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\GoodsRepository")
- * @ORM\Table(name="goods")
+ * @ORM\Table(
+ *     name="goods",
+ *     indexes={
+ *          @ORM\Index(name="idx_status", columns={"status"}),
+ *          @ORM\Index(name="idx_url", columns={"url"}),
+ *     },
+ * )
  */
 class Goods
 {
+    public const STATUS_DELETED = 0;
+    public const STATUS_ACTIVE = 1;
+
+    public const STATUSES = [
+        self::STATUS_DELETED,
+        self::STATUS_ACTIVE,
+    ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -29,9 +44,24 @@ class Goods
     private string $title;
 
     /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private string $url;
+
+    /**
+     * @ORM\Column(type="decimal", precision=19, scale=4)
+     */
+    private float $price;
+
+    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private ?string $description = null;
+
+    /**
+     * @ORM\Column(type="integer", options={"default": 1})
+     */
+    private int $status = self::STATUS_ACTIVE;
 
     public function getId(): int
     {
@@ -46,6 +76,26 @@ class Goods
     public function setTitle(string $title): void
     {
         $this->title = $title;
+    }
+
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(string $url): void
+    {
+        $this->url = $url;
+    }
+
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): void
+    {
+        $this->price = $price;
     }
 
     public function getDescription(): ?string
@@ -68,8 +118,17 @@ class Goods
         $this->user = $user;
     }
 
-    public function getUrl(): string
+    public function getStatus(): int
     {
-        return '/shop/' . $this->getUser()->getInstagramNickname() . '/' . $this->getId();
+        return $this->status;
+    }
+
+    public function setStatus(int $status): void
+    {
+        if (!in_array($status, self::STATUSES, true)) {
+            throw new RuntimeException("status $status is not exist");
+        }
+
+        $this->status = $status;
     }
 }
