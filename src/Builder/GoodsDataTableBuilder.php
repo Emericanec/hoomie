@@ -26,7 +26,11 @@ class GoodsDataTableBuilder
         $actionsColumn = new ActionsColumn('Actions');
         $actionsColumn->setUrlPrefix('goods/');
         $actionsColumn->setStyle('width: 100px;');
-        $actionsColumn->setFormat('edit delete');
+        $actionsColumn->setActions([
+            ActionsColumn::ACTION_EDIT,
+            '<div class="dropdown-divider"></div>',
+            ActionsColumn::ACTION_DELETE
+        ]);
         return $actionsColumn;
     }
 }

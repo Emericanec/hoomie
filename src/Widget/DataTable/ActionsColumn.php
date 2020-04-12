@@ -8,13 +8,23 @@ use Closure;
 
 class ActionsColumn extends Column
 {
+    public const ACTION_VIEW = '__VIEW__';
+
+    public const ACTION_EDIT = '__EDIT__';
+
+    public const ACTION_DELETE = '__DELETE__';
+
     private ?Closure $viewAction = null;
 
     private ?Closure $editAction = null;
 
     private ?Closure $deleteAction = null;
 
-    private string $format = 'view edit delete';
+    private array $actions = [
+        self::ACTION_VIEW,
+        self::ACTION_EDIT,
+        self::ACTION_DELETE,
+    ];
 
     private string $urlPrefix = '';
 
@@ -23,28 +33,46 @@ class ActionsColumn extends Column
         $viewAction = $this->getViewAction();
         $editAction = $this->getEditAction();
         $deleteAction = $this->getDeleteAction();
-        $format = $this->getFormat();
+        $template = $this->getTemplate();
 
-        return function (object $model) use ($viewAction, $editAction, $deleteAction, $format): string {
-            $search = ['view', 'edit', 'delete'];
+        $search = [self::ACTION_VIEW, self::ACTION_EDIT, self::ACTION_DELETE];
+
+        return function (object $model) use ($viewAction, $editAction, $deleteAction, $template, $search): string {
             $replace = [
                 $viewAction->call($model, $model),
                 $editAction->call($model, $model),
                 $deleteAction->call($model, $model),
             ];
 
-            return str_replace($search, $replace, $format);
+            return str_replace($search, $replace, $template);
         };
     }
 
-    public function getFormat(): string
+    public function getTemplate()
     {
-        return $this->format;
+        $actions = $this->getActions();
+        $format = implode(' ', $actions);
+        $template = <<<HTML
+            <div class="dropdown open">
+              <button class="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Actions
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                {$format}
+              </div>
+            </div>
+        HTML;
+        return $template;
     }
 
-    public function setFormat(string $format): void
+    public function getActions(): array
     {
-        $this->format = $format;
+        return $this->actions;
+    }
+
+    public function setActions(array $actions): void
+    {
+        $this->actions = $actions;
     }
 
     public function getUrlPrefix(): string
@@ -66,7 +94,7 @@ class ActionsColumn extends Column
         $prefix = $this->getUrlPrefix();
 
         return function (object $model) use ($prefix) : string {
-            return '<a href="' . $prefix . 'view/' . $model->getId() . '"><i class="nav-icon fas fa-eye"></i></a>';
+            return '<a class="dropdown-item" href="' . $prefix . 'view/' . $model->getId() . '">View</a>';
         };
     }
 
@@ -79,7 +107,7 @@ class ActionsColumn extends Column
         $prefix = $this->getUrlPrefix();
 
         return function (object $model) use ($prefix) : string {
-            return '<a href="' . $prefix . 'edit/' . $model->getId() . '"><i class="nav-icon fas fa-edit"></i></a>';
+            return '<a class="dropdown-item" href="' . $prefix . 'edit/' . $model->getId() . '">Edit</a>';
         };
     }
 
@@ -92,7 +120,7 @@ class ActionsColumn extends Column
         $prefix = $this->getUrlPrefix();
 
         return function (object $model) use ($prefix) : string {
-            return '<a href="' . $prefix . 'delete/' . $model->getId() . '"><i class="nav-icon fas fa-trash"></i></a>';
+            return '<a class="dropdown-item text-danger" href="' . $prefix . 'delete/' . $model->getId() . '">Delete</a>';
         };
     }
 
