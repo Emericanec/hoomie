@@ -39,7 +39,7 @@ class GoodsRepository extends ServiceEntityRepository
 
     /**
      * @param int $userId
-     * @return User[]
+     * @return Goods[]
      */
     public function findByUserId(int $userId): array
     {

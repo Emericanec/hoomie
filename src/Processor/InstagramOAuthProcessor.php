@@ -4,13 +4,18 @@ declare(strict_types=1);
 
 namespace App\Processor;
 
+use App\Enum\Error;
 use App\Exception\InstagramOAuthException;
+use App\Helper\Convert;
 use App\Response\InstagramOAuthResponse;
 use App\Service\Instagram\InstagramApi;
+use App\Traits\RollBarTrait;
 use Exception;
 
 class InstagramOAuthProcessor
 {
+    use RollBarTrait;
+
     private const PROFILE_FIELDS = 'account_type, id, media_count, username';
 
     private string $code;
@@ -34,6 +39,7 @@ class InstagramOAuthProcessor
         $profile = $instagramApi->getUserProfile();
 
         if (!$this->isValid($profile)) {
+            self::logger()->error(Error::AUTH_INSTAGRAM_LOGIN_ERROR, Convert::objectToArray($profile));
             $errorMessage = $profile->error->message ?? 'Undefined error';
             throw new InstagramOAuthException($errorMessage);
         }
