@@ -74,14 +74,14 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('app_main');
         }
 
-        if (null !== $email) {
+        if (null !== $email && is_string($email)) {
             $user->setEmail($email);
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
 
             $mailProcessor = new DefaultMailProcessor($mailer, 'Confirm your email', 'email/confirm_email.html.twig');
-            $mailProcessor->send($user->getEmail(), []);
+            $mailProcessor->send($email, []);
 
             return $this->redirectToRoute('app_main');
         }

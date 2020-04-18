@@ -35,7 +35,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
     /**
      * @param Request $request
      * @param AuthenticationException|null $authException
-     * @return RedirectResponse|Response
+     * @return RedirectResponse
      */
     public function start(Request $request, AuthenticationException $authException = null): RedirectResponse
     {
