@@ -35,7 +35,7 @@ class GoodsController extends AbstractAppController
         $widget = new DataTableWidget($this->getTwig(), (new GoodsDataTableBuilder())->getBuilder(), $goods);
 
         return $this->render('app/goods/list.html.twig', [
-            'widget' => $widget->render('widget/data_table/goods_list.html.twig')
+            'widget' => $widget->render()
         ]);
     }
 
@@ -99,7 +99,8 @@ class GoodsController extends AbstractAppController
         }
 
         return $this->render('app/goods/form.html.twig', [
-            'form' => $form
+            'form' => $form,
+            'files' => []
         ]);
     }
 

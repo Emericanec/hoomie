@@ -6,4 +6,6 @@ import '../../vendor/almasaeed2010/adminlte/dist/js/adminlte.min.js'
 import '../../vendor/almasaeed2010/adminlte/plugins/bootstrap/js/bootstrap.min.js'
 import './bootstrap.min'
 
+import './vue'
+
 $(document).on('click', '#sidebar-overlay', () => { $('.nav-link').click();});

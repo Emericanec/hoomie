@@ -30,7 +30,7 @@ class DataTableWidget implements WidgetInterface
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function render(string $path): string
+    public function render(string $path = 'widget/data_table/default_list.html.twig'): string
     {
         return $this->environment->render($path, [
             'data' => $this->data,

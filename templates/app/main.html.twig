@@ -8,7 +8,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Main app</h1>
+                    <h1 class="m-0 text-dark">Dashboard</h1>
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -17,6 +17,20 @@
 
     <!-- Main content -->
     <div class="content">
+        <div class="row">
+            <div class="col-md-6 col-sm-12">
+                <!-- small card -->
+                <div class="small-box bg-info">
+                    <div class="inner">
+                        <h3>Create your first page?</h3>
+                        <p>Looks like you don't have any page yet</p>
+                    </div>
+                    <a href="{{ url('app_page_create_main') }}" class="small-box-footer">
+                        Create your first page <i class="fas fa-arrow-circle-right"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
     <!-- /.content -->
 {% endblock %}
