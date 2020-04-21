@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use RuntimeException;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -35,9 +36,15 @@ class Page
     private int $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="page")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="pages")
      */
     private User $user;
+
+    /**
+     * @var Collection|Link[]
+     * @ORM\OneToMany(targetEntity="App\Entity\Link", mappedBy="page")
+     */
+    private Collection $links;
 
     /**
      * @ORM\Column(type="string", length=250)
@@ -101,5 +108,13 @@ class Page
         }
 
         $this->status = $status;
+    }
+
+    /**
+     * @return Collection|Link[]
+     */
+    public function getLinks(): Collection
+    {
+        return $this->links;
     }
 }

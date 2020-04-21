@@ -3,5 +3,39 @@
 {% block title %}Hoomie{% endblock %}
 
 {% block body %}
-    {{ page.id }}
+    <script src="/js/page/pageEdit.js"></script>
+    <script>
+        const pageInstance = new PageEdit({{ page.id }}, '#PageEditLayout', '#PageEditModal');
+        $(document).ready(function() {
+            pageInstance.render();
+        });
+    </script>
+    <section class="content">
+        <br>
+        <div class="row">
+            <div class="col-md-6 offset-md-3 col-sm-12">
+                <button class="btn btn-outline-dark btn-block" onclick="pageInstance.addButtonModal()">Add new link</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 offset-md-3 col-sm-12" id="PageEditLayout" style="margin-top: 8px;"></div>
+        </div>
+    </section>
+    <div class="modal fade" id="PageEditModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer"></div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

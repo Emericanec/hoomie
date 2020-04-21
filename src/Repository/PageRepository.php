@@ -35,16 +35,16 @@ class PageRepository extends ServiceEntityRepository
 
     /**
      * @param User $user
-     * @return bool
+     * @return Page|null
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function createMainPage(User $user): bool
+    public function createMainPage(User $user): ?Page
     {
         $pages = $user->getPages();
 
         if (count($pages)) {
-            return false;
+            return null;
         }
 
         $page = new Page();
@@ -56,6 +56,6 @@ class PageRepository extends ServiceEntityRepository
         $em->persist($page);
         $em->flush();
 
-        return true;
+        return $page;
     }
 }

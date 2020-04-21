@@ -37,14 +37,14 @@ class PagesController extends AbstractAppController
     }
 
     /**
-     * @Route("/app/page/edit/{id}", name="app_page_add")
+     * @Route("/app/page/edit/{id}", name="app_page_edit")
      * @param PageRepository $pageRepository
      * @param int $id
      * @return Response
      */
     public function edit(PageRepository $pageRepository, int $id): Response
     {
-        $page = $pageRepository->findBy(['id' => $id, 'user' => $this->getCurrentUser()->getId()]);
+        $page = $pageRepository->findOneBy(['id' => $id, 'user' => $this->getCurrentUser()->getId()]);
 
         if (!$page) {
             throw new NotFoundHttpException('Not found');
@@ -72,10 +72,12 @@ class PagesController extends AbstractAppController
      */
     public function createMainPage(PageRepository $pageRepository): Response
     {
-        if (!$pageRepository->createMainPage($this->getCurrentUser())) {
+        $page = $pageRepository->createMainPage($this->getCurrentUser());
+
+        if (!$page) {
             return $this->redirectToRoute('app_page_list');
         }
 
-        return $this->redirectToRoute('app_page_list');
+        return $this->redirectToRoute('app_page_edit', ['id' => $page->getId()]);
     }
 }

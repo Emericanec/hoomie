@@ -22,7 +22,7 @@ class PagesDataTableBuilder
     private function getActionsColumn(): ActionsColumn
     {
         $actionsColumn = new ActionsColumn('Actions');
-        $actionsColumn->setUrlPrefix('pages/');
+        $actionsColumn->setUrlPrefix('page/');
         $actionsColumn->setStyle('width: 100px;');
         $actionsColumn->setActions([
             ActionsColumn::ACTION_EDIT,
