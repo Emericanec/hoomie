@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Entity\Link;
+use App\Helper\JsonRequest;
 use App\Repository\PageRepository;
 use App\Response\Api\ApiResponse;
 use App\Response\Api\PermissionDeniedResponse;
@@ -36,6 +37,7 @@ class PageController extends AbstractApiController
 
     /**
      * @Route("/api/page/{id}/addLink")
+     * @param SerializerInterface $serializer
      * @param Request $request
      * @param PageRepository $pageRepository
      * @param int $id
@@ -43,6 +45,7 @@ class PageController extends AbstractApiController
      */
     public function addPageLink(SerializerInterface $serializer, Request $request, PageRepository $pageRepository, int $id): Response
     {
+        $jsonRequest = new JsonRequest($request);
         $page = $pageRepository->findOneBy(['id' => $id, 'user' => $this->getCurrentUser()->getId()]);
 
         if (null === $page) {
@@ -50,7 +53,7 @@ class PageController extends AbstractApiController
         }
 
         $model = new Link();
-        $model->setTitle($request->get('title'));
+        $model->setTitle($jsonRequest->getString('title'));
         $model->setPage($page);
         $model->setRawSettings('{}');
 
