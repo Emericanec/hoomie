@@ -6,6 +6,7 @@ namespace App\Security;
 
 use App\Entity\InstagramUserInterface;
 use App\Entity\User;
+use App\Helper\Env;
 use App\Processor\InstagramOAuthProcessor;
 use App\Processor\InstagramOAuthResponseProcessor;
 use App\Repository\UserRepository;
@@ -48,7 +49,9 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function supports(Request $request): bool
     {
-        return 'oauth' === $request->attributes->get('_route') && $request->query->has('code');
+        $local = 'local' === $request->attributes->get('_route') && Env::isLocalMode();
+        $default = 'oauth' === $request->attributes->get('_route') && $request->query->has('code');
+        return $default || $local;
     }
 
     /**
@@ -57,7 +60,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function getCredentials(Request $request): ?string
     {
-        return $request->query->get('code');
+        return $request->query->get('code', '');
     }
 
     /**
@@ -68,6 +71,14 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
      */
     public function getUser($credentials, UserProviderInterface $userProvider): ?InstagramUserInterface
     {
+        /** @var UserRepository $userRepository */
+        $userRepository = $this->em->getRepository(User::class);
+
+        if (Env::isLocalMode()) {
+            $this->user = $userRepository->findOneBy([]);
+            return $this->user;
+        }
+
         if (null === $credentials) {
             return null;
         }
@@ -78,8 +89,6 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
             return null;
         }
 
-        /** @var UserRepository $userRepository */
-        $userRepository = $this->em->getRepository(User::class);
         $this->user = $userRepository->findOneBy(['instagramUserId' => $instagramResponse->getUserId()]);
 
         $processor = new InstagramOAuthResponseProcessor($this->em, $instagramResponse);
