@@ -3,22 +3,28 @@ import VueResource from "vue-resource"
 import EditPage from './components/edit-page';
 Vue.use(VueResource);
 
-let template = `
+const template = `
     <edit-page :id="id"></edit-page>
 `;
 
-let editPageComponent = new Vue({
-    el: '#vue-edit-page',
-    template: template,
-    data() {
-        return {
-            id: null
+const selector = '#vue-edit-page';
+
+const componentExist = null != document.querySelector(selector);
+
+if (componentExist) {
+    let editPageComponent = new Vue({
+        el: selector,
+        template: template,
+        data() {
+            return {
+                id: null
+            }
+        },
+        created() {
+            this.id = window.location.pathname.replace('/app/page/edit/', '');
+        },
+        components: {
+            'edit-page': EditPage
         }
-    },
-    created() {
-        this.id = window.location.pathname.replace('/app/page/edit/', '');
-    },
-    components: {
-        'edit-page': EditPage
-    }
-});
+    });
+}

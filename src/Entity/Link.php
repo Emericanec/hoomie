@@ -9,7 +9,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\LinkRepository")
- * @ORM\Table(name="link")
+ * @ORM\Table(
+ *     name="link",
+ *     indexes={
+ *          @ORM\Index(name="idx_sort", columns={"sort"})
+ *     },
+ * )
  */
 class Link
 {
@@ -36,12 +41,26 @@ class Link
     private string $settings;
 
     /**
+     * @ORM\Column(type="integer", options={"default": 0})
+     */
+    private int $sort = 0;
+
+    /**
      * @Groups("default")
      * @return int
      */
     public function getId(): int
     {
         return $this->id;
+    }
+
+    /**
+     * @Groups("default")
+     * @return int
+     */
+    public function getSort(): int
+    {
+        return $this->sort;
     }
 
     /**
@@ -79,5 +98,14 @@ class Link
     public function setRawSettings(string $settings): void
     {
         $this->settings = $settings;
+    }
+
+    /**
+     * @Groups("default")
+     * @return array
+     */
+    public function getSettings(): array
+    {
+        return json_decode($this->settings, true, 512, JSON_THROW_ON_ERROR);
     }
 }

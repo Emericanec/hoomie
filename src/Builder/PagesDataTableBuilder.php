@@ -15,6 +15,7 @@ class PagesDataTableBuilder
     {
         $builder = new ColumnBuilder();
         $builder->addColumn(new Column('Title', fn(Page $goods): string => $goods->getTitle()));
+        $builder->addColumn(new Column('Url', fn(Page $goods): string => $goods->getUrl()));
         $builder->addColumn($this->getActionsColumn());
         return $builder;
     }

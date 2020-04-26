@@ -1,0 +1,26 @@
+{% extends 'page.html.twig' %}
+
+{% block title %}Hoomie{% endblock %}
+
+{% block body %}
+    <section class="content">
+        <div class="row">
+            <div class="col-md-6 offset-md-3 col-sm-12">
+                <br>
+                <div class="text-center">
+                    <img style="width: 150px;" class="img-circle elevation-2" src="{{ user.getProfileImageUrl }}">
+                    <br><br>
+                    <div class="text-dark">
+                        @{{ user.getInstagramNickname }}
+                    </div>
+                </div>
+                <br><br>
+                <div>
+                    {% for link in page.getSortedLinks %}
+                        <button onclick="location.href = '{{ link.getSettings['url'] ?? '' }}'" class="btn btn-block btn-lg" style="background-color: {{ link.getSettings['backgroundColor'] }}; color: {{ link.getSettings['textColor'] }};">{{ link.title }}</button>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

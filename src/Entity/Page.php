@@ -117,4 +117,20 @@ class Page
     {
         return $this->links;
     }
+
+    /**
+     * @return Collection|Link[]
+     */
+    public function getSortedLinks(): array
+    {
+        $links = $this->getLinks()->toArray();
+        usort($links, static function(Link $x, Link $y) {
+            if ($x->getSort() === $y->getSort()) {
+                return 0;
+            }
+
+            return $x->getSort() > $y->getSort() ? 1 : -1;
+        });
+        return $links;
+    }
 }

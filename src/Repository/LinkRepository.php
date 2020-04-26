@@ -20,4 +20,13 @@ class LinkRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Link::class);
     }
+
+    public function updateSort(int $linkId, int $sort)
+    {
+        $queryBuilder = $this->_em->createQueryBuilder();
+        $where = $queryBuilder->expr()->eq('l.id', $linkId);
+        $queryBuilder->update(Link::class, 'l')->set('l.sort', $sort)->where($where)->getFirstResult();
+        $query = $queryBuilder->getQuery();
+        return $query->execute();
+    }
 }

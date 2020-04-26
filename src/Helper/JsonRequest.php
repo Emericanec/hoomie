@@ -30,6 +30,11 @@ class JsonRequest
         return (float)$this->get($name, $default);
     }
 
+    public function getData(): array
+    {
+        return $this->data;
+    }
+
     public function get(string $name, $default = null)
     {
         return $this->data[$name] ?? $default;

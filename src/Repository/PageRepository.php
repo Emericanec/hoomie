@@ -34,6 +34,16 @@ class PageRepository extends ServiceEntityRepository
     }
 
     /**
+     * @param int $userId
+     * @param string $url
+     * @return Page|null
+     */
+    public function findOneByUrl(int $userId, string $url): ?Page
+    {
+        return $this->findOneBy(['user' => $userId, 'url' => $url]);
+    }
+
+    /**
      * @param User $user
      * @return Page|null
      * @throws ORMException
