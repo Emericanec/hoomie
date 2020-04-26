@@ -1,10 +1,6 @@
 import {Swatches} from 'vue-color'
 import draggable from "vuedraggable";
 
-let exampleButton = `
-    <button class="btn btn-lg btn-block" :style="{backgroundColor: form.color, color: form.textColor}">{{exampleButtonTitle}}</button>
-`;
-
 let template = `
     <section class="content">
         <br>
@@ -57,7 +53,7 @@ let template = `
                             </div>
                         </div>
                     </div>
-                    ${exampleButton}
+                    <button class="btn btn-lg btn-block" :style="{backgroundColor: form.color, color: form.textColor}">{{exampleButtonTitle}}</button>
                 </div>
             </div>
         </div>

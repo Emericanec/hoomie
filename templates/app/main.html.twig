@@ -18,8 +18,8 @@
     <!-- Main content -->
     <div class="content">
         <div class="row">
+            {% if pagesCount is same as(0) %}
             <div class="col-md-6 col-sm-12">
-                <!-- small card -->
                 <div class="small-box bg-info">
                     <div class="inner">
                         <h3>Create your first page?</h3>
@@ -30,6 +30,7 @@
                     </a>
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
     <!-- /.content -->

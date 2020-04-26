@@ -43,6 +43,11 @@ button.navbar-toggler:focus {
     .navbar-collapse.collapse{
         border-bottom: 1px solid;
     }
+
+    button.navbar-toggler
+    {
+        display: none;
+    }
 }
 
 /* Icon 1 */

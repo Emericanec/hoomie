@@ -1,8 +1,83 @@
-{% extends 'base.html.twig' %}
+{% extends 'index.html.twig' %}
 
 {% block title %}Hoomie{% endblock %}
 
 {% block body %}
-Hello {{ name }}
-    <div id="vue-upload-image"></div>
+    <div class="spa_top_gradient">
+        <div class="text-center col-sm-12 ">
+            <h1 class="text-light" style="font-size: 3rem;">One link for everything</h1><br>
+            <h5 class="text-light">Be in touch with your audience in one place</h5><br><br>
+            <a class="btn btn-lg btn-outline-light" href="{{ loginUrl }}">Sign in with Instagram</a>
+        </div>
+    </div>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-6">
+                <div class="row">
+                    <div class="col-sm-12" style="margin-bottom: 40px;">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Feature one</h4>
+                                <p class="card-text">With supporting text below as a natural lead-in to additional
+                                    content.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12" style="margin-bottom: 40px;">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Feature two</h4>
+                                <p class="card-text">With supporting text below as a natural lead-in to additional
+                                    content.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12" style="margin-bottom: 40px;">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Feature three</h4>
+                                <p class="card-text">With supporting text below as a natural lead-in to additional
+                                    content.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12" style="margin-bottom: 40px;">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Feature four</h4>
+                                <p class="card-text">With supporting text below as a natural lead-in to additional
+                                    content.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-6 text-center">
+                <img src="/image/phone.png"
+                     style="width: 375px; border-radius: 30px; box-shadow: 0px 0px 50px 0px #888888;">
+            </div>
+        </div>
+        <br><br><br>
+    </div>
+    <style>
+        div.spa_top_gradient {
+            padding: 100px;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
 {% endblock %}

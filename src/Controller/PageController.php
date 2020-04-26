@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class PageController extends AbstractController
 {
     /**
-     * @Route("/p/{username}", name="p_index")
+     * @Route("/{username}", name="p_index")
      * @param UserRepository $userRepository
      * @param PageRepository $pageRepository
      * @param string $username

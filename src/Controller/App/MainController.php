@@ -15,6 +15,9 @@ class MainController extends AbstractAppController
      */
     public function main(): Response
     {
-        return $this->render('app/main.html.twig');
+        $pagesCount = count($this->getCurrentUser()->getPages());
+        return $this->render('app/main.html.twig', [
+            'pagesCount' => $pagesCount
+        ]);
     }
 }
