@@ -12,10 +12,10 @@ let template = `
             </div>
             <div class="row">
                 <div class="col-md-6 offset-md-3 col-sm-12" style="margin-top: 8px;">
-                    <draggable v-model="linkListDraggable" tag="div" handle=".handle">
-                        <div v-for="link in links">
+                    <draggable v-model="linkListDraggable" tag="div" handle=".handle" class="row">
+                        <div v-for="link in links" class="col-6">
                             <div style="position: relative; width: 0px; height: 0px; left: calc(100% - 30px);">
-                                <i v-if="true" class="nav-icon fas fa-arrows-alt-v handle" style="position: absolute; font-size: 1.5rem; top: 12px;"></i>
+                                <i v-if="true" class="nav-icon fas fa-arrows-alt-v handle" style="position: absolute; font-size: 1.5rem; top: 20px;"></i>
                             </div>
                             <button class="btn btn-block btn-lg" :style="{marginTop: '8px', backgroundColor: link.settings.backgroundColor, color: link.settings.textColor}" v-on:click="toEditLink(link)">{{link.title}}</button>
                         </div>
@@ -115,8 +115,7 @@ export default {
         isTextColorChoose() {
             return this.mode === MODE_TEXT_COLOR_CHOOSE;
         },
-        exampleButtonTitle()
-        {
+        exampleButtonTitle() {
             return this.form.title || 'Example title';
         },
         linkListDraggable: {
