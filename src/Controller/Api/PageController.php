@@ -109,6 +109,7 @@ class PageController extends AbstractApiController
             'url' => $jsonRequest->getString('url', ''),
             'backgroundColor' => $jsonRequest->getString('backgroundColor', '#007bff'),
             'textColor' => $jsonRequest->getString('textColor', '#ffffff'),
+            'size' => $jsonRequest->getString('size', 12),
         ];
 
         $model->setRawSettings(json_encode($settings, JSON_THROW_ON_ERROR, 512));

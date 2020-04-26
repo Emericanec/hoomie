@@ -13,7 +13,7 @@ let template = `
             <div class="row">
                 <div class="col-md-6 offset-md-3 col-sm-12" style="margin-top: 8px;">
                     <draggable v-model="linkListDraggable" tag="div" handle=".handle" class="row">
-                        <div v-for="link in links" class="col-6">
+                        <div v-for="link in links" :class="getLinkColClass(link)">
                             <div style="position: relative; width: 0px; height: 0px; left: calc(100% - 30px);">
                                 <i v-if="true" class="nav-icon fas fa-arrows-alt-v handle" style="position: absolute; font-size: 1.5rem; top: 20px;"></i>
                             </div>
@@ -51,9 +51,22 @@ let template = `
                                 <br>
                                 <a class="btn btn-dark text-light" v-on:click="toTextColorChoose()">Change text color</a>
                             </div>
+                            <div class="form-group">
+                                <label>Size:</label>
+                                <br>
+                                <div class="btn-group" role="size">
+                                  <button type="button" class="btn btn-secondary" v-on:click="changeSize(4)">Small</button>
+                                  <button type="button" class="btn btn-secondary" v-on:click="changeSize(6)">Medium</button>
+                                  <button type="button" class="btn btn-secondary" v-on:click="changeSize(12)">Large</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <button class="btn btn-lg btn-block" :style="{backgroundColor: form.color, color: form.textColor}">{{exampleButtonTitle}}</button>
+                    <div class="row" style="margin-top: 8px;">
+                        <div :class="getColClass(form)">
+                            <button class="btn btn-lg btn-block" :style="{backgroundColor: form.color, color: form.textColor}">{{exampleButtonTitle}}</button>  
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -133,6 +146,7 @@ export default {
             let payload = {
                 title: this.form.title,
                 url: this.form.url,
+                size: this.form.size,
                 backgroundColor: this.form.color,
                 textColor: this.form.textColor,
             };
@@ -168,12 +182,16 @@ export default {
             this.form.textColor = color.hex;
             this.toAddNewLink(false);
         },
+        changeSize(size) {
+            this.form.size = size;
+        },
         toAddNewLink(initializer = true) {
             if (initializer) {
                 this.form = {
                     id: null,
                     url: '',
                     title: '',
+                    size: 12,
                     color: '#007bff',
                     textColor: '#ffffff'
                 };
@@ -186,6 +204,7 @@ export default {
                     id: link.id,
                     url: link.settings.url || '',
                     title: link.title || '',
+                    size: link.settings.size || 12,
                     color: link.settings.backgroundColor || '#007bff',
                     textColor: link.settings.textColor || '#ffffff'
                 };
@@ -201,6 +220,16 @@ export default {
         },
         toTextColorChoose() {
             this.mode = MODE_TEXT_COLOR_CHOOSE;
+        },
+        getLinkColClass(link) {
+            let size = link.size || link.settings.size || 12;
+            size = parseInt(size);
+            return 'col-' + size;
+        },
+        getColClass(link) {
+            let size = link.size || link.settings.size || 12;
+            size = parseInt(size);
+            return 'col-' + size + ' offset-' + ((12 - size) / 2);
         }
     },
     components: {
