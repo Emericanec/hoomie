@@ -119,7 +119,7 @@ class Page
     }
 
     /**
-     * @return Collection|Link[]
+     * @return Link[]
      */
     public function getSortedLinks(): array
     {

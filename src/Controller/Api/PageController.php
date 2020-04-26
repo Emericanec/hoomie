@@ -13,7 +13,6 @@ use App\Response\Api\PermissionDeniedResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 
 class PageController extends AbstractApiController
 {
@@ -62,6 +61,7 @@ class PageController extends AbstractApiController
      * @Route("/api/page/{id}/addLink")
      * @param Request $request
      * @param PageRepository $pageRepository
+     * @param LinkRepository $linkRepository
      * @param int $id
      * @return Response
      */

@@ -7,7 +7,6 @@ namespace App\Controller\Api;
 use App\Controller\AppControllerInterface;
 use App\Entity\User;
 use App\Enum\Error;
-use App\Response\Api\ApiResponse;
 use App\Response\Api\PermissionDeniedResponse;
 use App\Traits\RollBarTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,7 +42,7 @@ abstract class AbstractApiController extends AbstractController implements AppCo
     }
 
     /**
-     * @param array $data
+     * @param mixed $data
      * @param array $groups
      * @return Response
      */
