@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueResource from "vue-resource"
-import EditPage from './components/edit-page';
+import EditPage from './components/editPage';
+
 Vue.use(VueResource);
 
 const template = `
