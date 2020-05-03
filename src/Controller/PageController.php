@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Repository\PageRepository;
 use App\Repository\UserRepository;
+use App\Service\Analytics\Logger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -31,6 +32,8 @@ class PageController extends AbstractController
         if (null === $page) {
             throw new NotFoundHttpException('Not found');
         }
+
+        Logger::logVisitPage($page->getUser()->getId(), $page->getId());
 
         return $this->render('page/main.html.twig', [
             'user' => $user,

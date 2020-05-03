@@ -5,7 +5,10 @@ declare(strict_types=1);
 namespace App\Processor;
 
 use App\Entity\User;
+use App\Repository\PageRepository;
 use App\Response\InstagramOAuthResponse;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ObjectManager;
 
 class InstagramOAuthResponseProcessor
@@ -20,7 +23,13 @@ class InstagramOAuthResponseProcessor
         $this->objectManager = $objectManager;
     }
 
-    public function createUser(): User
+    /**
+     * @param PageRepository $pageRepository
+     * @return User
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
+    public function createUser(PageRepository $pageRepository): User
     {
         $user = new User();
         $user->setInstagramAccessToken($this->instagramOAuthTokenResponse->getAccessToken());
@@ -31,6 +40,8 @@ class InstagramOAuthResponseProcessor
         $this->objectManager->persist($user);
 
         $this->objectManager->flush();
+
+        $pageRepository->createMainPage($user);
 
         return $user;
     }

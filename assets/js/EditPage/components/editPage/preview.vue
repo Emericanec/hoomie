@@ -1,9 +1,12 @@
 <template>
     <div>
-        <button class="btn btn-outline-dark btn-block btn-lg preview-add-new-link-button" v-on:click="addNewLinkCallback()">Add New Link</button>
+        <button class="btn btn-outline-dark btn-block btn-lg preview-add-new-link-button"
+                v-on:click="addNewLinkCallback()">Add New Link
+        </button>
         <div class="preview-edit-page">
             <div class="text-center">
-                <img style="width: 150px;" class="img-circle elevation-2" src="https://scontent-ams4-1.cdninstagram.com/v/t51.2885-19/s150x150/54247715_2195250907184796_8702997699101720576_n.jpg?_nc_ht=scontent-ams4-1.cdninstagram.com&amp;_nc_ohc=MEyEmqsvTzIAX_wg9iv&amp;oh=152b9cd35d3d5283e03806c14fe4e2d3&amp;oe=5EC9B20C">
+                <img style="width: 150px;" class="img-circle elevation-2"
+                     src="https://scontent-ams4-1.cdninstagram.com/v/t51.2885-19/s150x150/54247715_2195250907184796_8702997699101720576_n.jpg?_nc_ht=scontent-ams4-1.cdninstagram.com&amp;_nc_ohc=MEyEmqsvTzIAX_wg9iv&amp;oh=152b9cd35d3d5283e03806c14fe4e2d3&amp;oe=5EC9B20C">
                 <br><br>
                 <div class="text-dark">
                     @took_took_kto_tam
@@ -15,7 +18,9 @@
                     <div class="preview-drag-block">
                         <i class="nav-icon fas fa-arrows-alt-v handle preview-drag-icon"></i>
                     </div>
-                    <button class="btn btn-block btn-lg" :style="{marginTop: '8px', backgroundColor: link.settings.backgroundColor, color: link.settings.textColor}" v-on:click="editLinkCallback(link)">{{link.title}}</button>
+                    <button class="btn btn-block btn-lg"
+                            :style="{marginTop: '8px', backgroundColor: link.settings.backgroundColor, color: link.settings.textColor}"
+                            v-on:click="editLinkCallback(link)" v-html="getLinkText(link)"></button>
                 </div>
             </draggable>
         </div>
@@ -66,6 +71,13 @@
                     // todo
                 });
             },
+            getLinkText(link) {
+                let icon = '';
+                if (link.settings.hasOwnProperty('icon') && link.settings.icon.length) {
+                    icon = `<i class="${link.settings.icon}"></i>`;
+                }
+                return `${icon} ${link.title}`;
+            }
         },
         components: {
             draggable
@@ -78,7 +90,7 @@
         position: relative;
         width: 0;
         height: 0;
-        left: calc(100% + 1px);
+        left: calc(100% + 2px);
     }
 
     .preview-drag-icon {

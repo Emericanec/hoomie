@@ -111,11 +111,14 @@ class Page
     }
 
     /**
-     * @return Collection|Link[]
+     * @return Link[]
      */
-    public function getLinks(): Collection
+    public function getLinks(): array
     {
-        return $this->links;
+        $links = $this->links->toArray();
+        return array_filter($links, static function(Link $link) {
+            return $link->getStatus() !== Link::STATUS_DELETED;
+        });
     }
 
     /**
@@ -123,7 +126,7 @@ class Page
      */
     public function getSortedLinks(): array
     {
-        $links = $this->getLinks()->toArray();
+        $links = $this->getLinks();
         usort($links, static function(Link $x, Link $y) {
             if ($x->getSort() === $y->getSort()) {
                 return 0;

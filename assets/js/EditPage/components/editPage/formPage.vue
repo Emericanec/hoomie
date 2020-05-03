@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="card form-page-card" v-if="isColorChoose || isTextColorChoose">
+        <div class="card form-page-card" v-if="isColorChoose || isTextColorChoose || isIconChoose">
             <div class="card-header">
                 <button type="submit" class="btn btn-default" v-on:click="toMain">Back</button>
             </div>
@@ -9,11 +9,23 @@
                                  @input="updateColorValue"/>
                 <swatches-picker v-if="isTextColorChoose" class="form-page-color-picker" :value="form.textColor"
                                  @input="updateTextColorValue"/>
+                <icon-choose v-if="isIconChoose" :value="form.icon" @input="updateIconValue"/>
             </div>
         </div>
         <div class="card form-page-card" v-if="isMain">
             <div class="card-header">
                 <button type="submit" class="btn btn-default" v-on:click="backCallback">Back</button>
+                <div v-if="isEditMode" class="dropdown d-inline-block">
+                    <button class="btn" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <button class="dropdown-item text-danger" data-toggle="modal" data-target="#deleteModal">
+                            <i class="far fa-trash-alt"></i>
+                            Delete Link
+                        </button>
+                    </div>
+                </div>
                 <button type="submit" class="btn btn-info float-right" v-on:click="saveLink()">Save</button>
             </div>
             <!-- /.card-header -->
@@ -27,12 +39,20 @@
                     <input type="text" class="form-control" placeholder="Enter url" v-model="form.url">
                 </div>
                 <div class="form-group">
+                    <button type="button" class="btn btn-outline-dark" v-on:click="toIconChoose()">
+                        <i class="far fa-image"></i>
+                        Choose Icon
+                    </button>
+                </div>
+                <div class="form-group">
                     <button type="button" class="btn btn-outline-dark" v-on:click="toColorChoose()">
+                        <i class="fas fa-fill-drip"></i>
                         Choose Background Color
                     </button>
                 </div>
                 <div class="form-group">
                     <button type="button" class="btn btn-outline-dark" v-on:click="toTextColorChoose()">
+                        <i class="fas fa-align-left"></i>
                         Choose Text Color
                     </button>
                 </div>
@@ -49,9 +69,28 @@
         </div>
         <div class="row" style="margin-top: 8px;">
             <div :class="getColClass(form)">
-                <button class="btn btn-lg btn-block" :style="{backgroundColor: form.color, color: form.textColor}">
-                    {{exampleButtonTitle}}
-                </button>
+                <button v-html="exampleButtonTitle" class="btn btn-lg btn-block"
+                        :style="{backgroundColor: form.color, color: form.textColor}"></button>
+            </div>
+        </div>
+
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Delete Link</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure that you want to delete this link?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-danger" v-on:click="deleteLink">Delete</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -59,10 +98,13 @@
 
 <script>
     import {Swatches} from "vue-color";
+    import iconChoose from "./iconChoose";
+    import $ from "jquery";
 
     const MODE_MAIN = 'main';
     const MODE_COLOR_CHOOSE = 'color_choose';
     const MODE_TEXT_COLOR_CHOOSE = 'text_color_choose';
+    const MODE_ICON_CHOOSE = 'icon_choose';
 
     export default {
         name: "formPage",
@@ -85,7 +127,8 @@
                     title: this.editLink.title || '',
                     size: this.editLink.settings.size || 12,
                     color: this.editLink.settings.backgroundColor || '#007bff',
-                    textColor: this.editLink.settings.textColor || '#ffffff'
+                    textColor: this.editLink.settings.textColor || '#ffffff',
+                    icon: this.editLink.settings.icon || ''
                 };
             } else {
                 this.form = {
@@ -94,7 +137,8 @@
                     title: '',
                     size: 12,
                     color: '#007bff',
-                    textColor: '#ffffff'
+                    textColor: '#ffffff',
+                    icon: ''
                 };
             }
         },
@@ -105,17 +149,25 @@
             }
         },
         computed: {
+            isEditMode() {
+                return this.form.hasOwnProperty('id') && this.form.id !== null;
+            },
             isMain() {
-                return this.mode === MODE_MAIN;
+                return this.mode === MODE_MAIN
             },
             isColorChoose() {
-                return this.mode === MODE_COLOR_CHOOSE;
+                return this.mode === MODE_COLOR_CHOOSE
             },
             isTextColorChoose() {
-                return this.mode === MODE_TEXT_COLOR_CHOOSE;
+                return this.mode === MODE_TEXT_COLOR_CHOOSE
+            },
+            isIconChoose() {
+                return this.mode === MODE_ICON_CHOOSE
             },
             exampleButtonTitle() {
-                return this.form.title || 'Example title';
+                let icon = this.form.icon.length ? `<i class="${this.form.icon}"></i>` : '';
+                let text = this.form.title || (icon.length ? '' : 'Example title');
+                return `${icon} ${text}`;
             }
         },
         methods: {
@@ -126,6 +178,7 @@
                     size: this.form.size,
                     backgroundColor: this.form.color,
                     textColor: this.form.textColor,
+                    icon: this.form.icon,
                 };
 
                 let url = '/api/page/' + this.pageId + '/addLink';
@@ -135,6 +188,13 @@
                 }
 
                 this.$http.post(url, payload).then(response => {
+                    this.backCallback();
+                });
+            },
+            deleteLink() {
+                const url = '/api/page/' + this.pageId + '/deleteLink/' + this.form.id;
+                this.$http.get(url).then(response => {
+                    $('.modal-backdrop').remove();
                     this.backCallback();
                 });
             },
@@ -151,6 +211,10 @@
                 this.form.textColor = color.hex;
                 this.toMain();
             },
+            updateIconValue(icon) {
+                this.form.icon = icon;
+                this.toMain();
+            },
             changeSize(size) {
                 this.form.size = size;
             },
@@ -163,9 +227,13 @@
             toTextColorChoose() {
                 this.mode = MODE_TEXT_COLOR_CHOOSE;
             },
+            toIconChoose() {
+                this.mode = MODE_ICON_CHOOSE;
+            }
         },
         components: {
             'swatches-picker': Swatches,
+            'icon-choose': iconChoose
         }
     }
 </script>

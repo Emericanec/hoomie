@@ -1,14 +1,13 @@
 import Vue from 'vue';
 import VueResource from "vue-resource"
-import EditPage from './components/editPage';
-
+import AnalyticsPage from "./components/AnalyticsPage"
 Vue.use(VueResource);
 
 const template = `
-    <edit-page :id="id"></edit-page>
+    <analytics-page id="id"></analytics-page>
 `;
 
-const selector = '#vue-edit-page';
+const selector = '#vue-analytics-page';
 
 const componentExist = null != document.querySelector(selector);
 const mountEl = document.querySelector(selector);
@@ -18,7 +17,7 @@ if (componentExist) {
         el: selector,
         template: template,
         components: {
-            'edit-page': EditPage
+            'analytics-page': AnalyticsPage
         },
         data() {
             return {

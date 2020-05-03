@@ -9,12 +9,12 @@ use App\Entity\User;
 use App\Helper\Env;
 use App\Processor\InstagramOAuthProcessor;
 use App\Processor\InstagramOAuthResponseProcessor;
+use App\Repository\PageRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -28,9 +28,12 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
 
     private ?InstagramUserInterface $user = null;
 
-    public function __construct(EntityManagerInterface $em)
+    private PageRepository $pageRepository;
+
+    public function __construct(EntityManagerInterface $em, PageRepository $pageRepository)
     {
         $this->em = $em;
+        $this->pageRepository = $pageRepository;
     }
 
     /**
@@ -92,7 +95,7 @@ class TokenAuthenticator extends AbstractGuardAuthenticator
         $this->user = $userRepository->findOneBy(['instagramUserId' => $instagramResponse->getUserId()]);
 
         $processor = new InstagramOAuthResponseProcessor($this->em, $instagramResponse);
-        $this->user = null === $this->user ? $processor->createUser() : $processor->updateUser($this->user);
+        $this->user = null === $this->user ? $processor->createUser($this->pageRepository) : $processor->updateUser($this->user);
 
         $this->user->setProfileImageUrl($instagramResponse->getProfileImageUrl());
 

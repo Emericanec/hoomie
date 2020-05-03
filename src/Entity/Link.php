@@ -18,6 +18,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Link
 {
+    const STATUS_DELETED = 0;
+    const STATUS_ACTIVE = 1;
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -44,6 +46,11 @@ class Link
      * @ORM\Column(type="integer", options={"default": 0})
      */
     private int $sort = 0;
+
+    /**
+     * @ORM\Column(type="integer", options={"default": 1})
+     */
+    private int $status = self::STATUS_ACTIVE;
 
     /**
      * @Groups("default")
@@ -107,5 +114,15 @@ class Link
     public function getSettings(): array
     {
         return json_decode($this->settings, true, 512, JSON_THROW_ON_ERROR);
+    }
+
+    public function getStatus(): int
+    {
+        return $this->status;
+    }
+
+    public function setStatus(int $status): void
+    {
+        $this->status = $status;
     }
 }

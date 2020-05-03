@@ -58,6 +58,38 @@ class PageController extends AbstractApiController
     }
 
     /**
+     * @Route("/api/page/{id}/deleteLink/{linkId}")
+     * @param PageRepository $pageRepository
+     * @param LinkRepository $linkRepository
+     * @param int $id
+     * @param int $linkId
+     * @return Response
+     */
+    public function deletePageLink(PageRepository $pageRepository, LinkRepository $linkRepository, int $id, int $linkId)
+    {
+        $page = $pageRepository->findOneBy(['id' => $id, 'user' => $this->getCurrentUser()->getId()]);
+
+        if (null === $page) {
+            return $this->json((new PermissionDeniedResponse())->toArray());
+        }
+
+        $link = $linkRepository->findOneBy(['id' => $linkId, 'page' => $page->getId()]);
+
+        if (null === $link) {
+            return $this->json((new PermissionDeniedResponse())->toArray());
+        }
+
+        $link->setStatus(Link::STATUS_DELETED);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($link);
+        $em->flush();
+
+
+        return $this->jsonResponse([ApiResponse::PARAM_RESULT => true]);
+    }
+
+    /**
      * @Route("/api/page/{id}/addLink")
      * @param Request $request
      * @param PageRepository $pageRepository
@@ -86,6 +118,7 @@ class PageController extends AbstractApiController
 
     public function handle(Request $request, PageRepository $pageRepository, LinkRepository $linkRepository, int $id, int $linkId = null): Response
     {
+        // todo refactor
         $jsonRequest = new JsonRequest($request);
         $page = $pageRepository->findOneBy(['id' => $id, 'user' => $this->getCurrentUser()->getId()]);
 
@@ -110,6 +143,7 @@ class PageController extends AbstractApiController
             'backgroundColor' => $jsonRequest->getString('backgroundColor', '#007bff'),
             'textColor' => $jsonRequest->getString('textColor', '#ffffff'),
             'size' => $jsonRequest->getString('size', 12),
+            'icon' => $jsonRequest->getString('icon', ''),
         ];
 
         $model->setRawSettings(json_encode($settings, JSON_THROW_ON_ERROR, 512));
