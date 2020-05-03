@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Analytics\Entity;
 
+use App\Entity\Page as DbPage;
 use App\Service\Analytics\Event;
 use App\Service\ElasticSearch\ElasticSearch;
 use App\Service\ElasticSearch\ElasticSearchIndex;
@@ -16,28 +17,29 @@ use Elastica\Search;
 class Page
 {
     private Client $client;
+
     private QueryBuilder $queryBuilder;
 
-    public function __construct()
+    private DbPage $page;
+
+    public function __construct(DbPage $page)
     {
         $this->client = ElasticSearch::getClient();
         $this->queryBuilder = new QueryBuilder();
+        $this->page = $page;
     }
 
-    public function getPageViewsByLast7Days(int $pageId): array
+    public function getPageViewsByLast7Days(): array
     {
         $search = new Search($this->client);
         $search->addIndex(ElasticSearchIndex::INDEX_EVENTS);
 
-        $range = $this->queryBuilder->query()->range(Event::PARAM_EVENT_CREATED, [
-            'gte' => 'now-1d/d'
-        ]);
+        $range = $this->queryBuilder->query()->range(Event::PARAM_EVENT_CREATED, ['gte' => 'now-7d/d']);
         $filter = $this->queryBuilder->query()->bool()->addMust([
             $this->queryBuilder->query()->match(Event::PARAM_EVENT_TYPE, Event::TYPE_VISIT_PAGE),
-            $this->queryBuilder->query()->match(Event::PARAM_EVENT_ID, $pageId)
+            $this->queryBuilder->query()->match(Event::PARAM_EVENT_ID, $this->page->getId())
         ])->addFilter($range);
 
-        /** @phpstan-ignore-next-line */
         $aggregation = $this->queryBuilder->aggregation()->date_histogram('histogram', Event::PARAM_EVENT_CREATED, 'day');
         $query = (new Query())->setQuery($filter)->addAggregation($aggregation);
         $search->setQuery($query);
@@ -45,15 +47,21 @@ class Page
         $result = $search->search();
 
         $resultStats = [];
+        $index = 0;
         for ($i = 6; $i >= 0; $i--) {
             $date = (new DateTime())->modify("-{$i} days")->format('d.m.Y');
-            $resultStats[$date] = 0;
+            $resultStats[$date] = [
+                'label' => $date,
+                'index' => $index,
+                'count' => 0
+            ];
+            $index++;
         }
 
-        foreach ($result->getAggregation('histogram') as $aggr) {
-            foreach ($aggr as $day) {
-                $date = date('d.m.Y',$day['key'] / 1000);
-                $resultStats[$date] = $day['doc_count'];
+        foreach ($result->getAggregation('histogram') as $oneAggregate) {
+            foreach ($oneAggregate as $day) {
+                $date = date('d.m.Y', $day['key'] / 1000);
+                $resultStats[$date]['count'] = $day['doc_count'];
             }
         }
 

@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use App\Entity\Link;
+use App\Entity\Setting;
 use App\Helper\JsonRequest;
+use App\Manager\ThemeManager;
 use App\Repository\LinkRepository;
 use App\Repository\PageRepository;
+use App\Repository\SettingRepository;
 use App\Response\Api\ApiResponse;
 use App\Response\Api\PermissionDeniedResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +25,7 @@ class PageController extends AbstractApiController
      * @param int $id
      * @return Response
      */
-    public function getLayout(PageRepository $pageRepository, int $id): Response
+    public function getLayout(PageRepository $pageRepository, SettingRepository $settingRepository, int $id): Response
     {
         $page = $pageRepository->findOneBy(['id' => $id, 'user' => $this->getCurrentUser()->getId()]);
 
@@ -30,7 +33,19 @@ class PageController extends AbstractApiController
             return $this->json((new PermissionDeniedResponse())->toArray());
         }
 
-        return $this->jsonResponse($page->getSortedLinks());
+        $setting = $settingRepository->findOneByUserId($this->getCurrentUser()->getId());
+        if (null === $setting) {
+            $setting = new Setting();
+            $setting->setUser($this->getCurrentUser());
+        }
+
+        $manager = new ThemeManager($setting);
+
+        return $this->jsonResponse([
+            'button_style' => $manager->getButtonStyle(),
+            'background_style' => $manager->getBackgroundStyle(),
+            'links' => $page->getSortedLinks()
+        ]);
     }
 
     /**

@@ -3,8 +3,11 @@
         <div class="col-12 col-md-10 offset-md-1">
             <br>
             <div class="card">
+                <div class="card-header">
+                    <h3>Statistics for the last 7 days:</h3>
+                </div>
                 <div class="card-body">
-                    <line-chart :data="chartData" :height="300"></line-chart>
+                    <line-chart :chart-data="chartData" :options="chartOptions"></line-chart>
                 </div>
             </div>
         </div>
@@ -20,13 +23,20 @@
         components: {
             'line-chart': Line
         },
-        created () {
+        created() {
             this.loadData();
+        },
+        computed: {
+            chartOptions() {
+                return {
+                    maintainAspectRatio: false
+                }
+            }
         },
         data() {
             return {
                 chartData: {
-                    labels: this.getLabels(),
+                    labels: [],
                     datasets: [],
                     height: 300,
                 }
@@ -34,30 +44,25 @@
         },
         methods: {
             loadData() {
-                this.chartData = {
-                    labels: this.getLabels(),
-                    datasets: [
-                        {
-                            label: 'Page Visits',
-                            backgroundColor: '#007bff',
-                            data: [1,0,0,0,0,1,3]
-                        },
-                    ],
-                    height: 300,
-                };
+                this.$http.get('/api/analytics/all').then(response => {
+                    this.chartData = {
+                        labels: this.getLabels(response.body),
+                        datasets: [
+                            {
+                                label: 'Page Visits',
+                                backgroundColor: '#007bff',
+                                data: this.getDataSet(response.body)
+                            },
+                        ],
+                        height: 300,
+                    };
+                });
             },
-            getLabels() {
-                let labels = [];
-                for (let i = 6; i >= 0; i--)
-                {
-                    let d = new Date();
-                    let dateOffset = (24*60*60*1000) * i;
-                    d.setTime(d.getTime() - dateOffset);
-                    let label = d.getUTCDate() + '.' + d.getUTCMonth() + '.' + d.getUTCFullYear();
-                    labels.push(label);
-
-                }
-                return labels;
+            getLabels(response) {
+                return response.map(row => row.label);
+            },
+            getDataSet(response) {
+                return response.map(row => row.count);
             }
         }
     }

@@ -3,7 +3,7 @@
         <br>
         <div class="row">
             <div class="col-md-6 offset-md-3 col-sm-12">
-                <preview v-if="isMain" :page-id="id" v-model="links" :add-new-link-callback="toForm"
+                <preview v-if="isMain" :page-id="id" :button-style="buttonStyle" :background-style="backgroundStyle" v-model="links" :add-new-link-callback="toForm"
                          :edit-link-callback="toForm">
                 </preview>
 
@@ -32,6 +32,8 @@
             return {
                 mode: MODE_MAIN,
                 links: [],
+                buttonStyle: null,
+                backgroundStyle: null,
                 linkEdit: null
             }
         },
@@ -49,7 +51,9 @@
         methods: {
             getLayout() {
                 this.$http.get('/api/page/' + this.id + '/getLayout').then(response => {
-                    this.links = response.data;
+                    this.buttonStyle = response.data.button_style;
+                    this.backgroundStyle = response.data.background_style;
+                    this.links = response.data.links;
                 });
             },
             toForm(link = {}) {

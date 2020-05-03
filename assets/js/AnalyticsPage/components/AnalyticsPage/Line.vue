@@ -7,11 +7,9 @@
         extends: Line,
         mixins: [reactiveProp],
         name: 'AnalyticsLine',
-        props: ['data'],
+        props: ['data', 'options'],
         mounted() {
-            this.renderChart(this.data, {
-                maintainAspectRatio: false
-            })
+            this.renderChart(this.data, this.options)
         }
     }
 </script>

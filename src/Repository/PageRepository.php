@@ -37,7 +37,7 @@ class PageRepository extends ServiceEntityRepository
      * @param int $userId
      * @return Page
      */
-    public function findOneByUserId(int $userId): Page
+    public function findOneByUserId(int $userId): ?Page
     {
         return $this->findOneBy(['user' => $userId]);
     }
