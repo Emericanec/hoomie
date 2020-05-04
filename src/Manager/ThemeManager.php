@@ -67,22 +67,42 @@ class ThemeManager
             Setting::BACKGROUND_STYLE_DEFAULT => [
                 'id' => Setting::BACKGROUND_STYLE_DEFAULT,
                 'title' => 'default',
-                'color' => '#f4f6f9'
+                'color' => 'background-color: #f4f6f9;'
             ],
             Setting::BACKGROUND_STYLE_LIGHT_GREY => [
                 'id' => Setting::BACKGROUND_STYLE_LIGHT_GREY,
                 'title' => 'Light Grey',
-                'color' => '#919191'
+                'color' => 'background-color: #919191;'
             ],
             Setting::BACKGROUND_STYLE_DARK_GREY => [
                 'id' => Setting::BACKGROUND_STYLE_DARK_GREY,
                 'title' => 'Dark Grey',
-                'color' => '#4a4a4a'
+                'color' => 'background-color: #4a4a4a;'
             ],
             Setting::BACKGROUND_STYLE_BLACK => [
                 'id' => Setting::BACKGROUND_STYLE_BLACK,
                 'title' => 'Black',
-                'color' => '#000000'
+                'color' => 'background-color: #000000;'
+            ],
+            Setting::BACKGROUND_STYLE_GRADIENT_1 => [
+                'id' => Setting::BACKGROUND_STYLE_GRADIENT_1,
+                'title' => 'Gradient 1',
+                'color' => 'background: linear-gradient(-45deg, #ee7752, #e73c7e); background-size: 100% 100%;'
+            ],
+            Setting::BACKGROUND_STYLE_GRADIENT_2 => [
+                'id' => Setting::BACKGROUND_STYLE_GRADIENT_2,
+                'title' => 'Gradient 2',
+                'color' => 'background: linear-gradient(-45deg, #e73c7e, #23a6d5); background-size: 100% 100%;'
+            ],
+            Setting::BACKGROUND_STYLE_GRADIENT_3 => [
+                'id' => Setting::BACKGROUND_STYLE_GRADIENT_3,
+                'title' => 'Gradient 3',
+                'color' => 'background: linear-gradient(-45deg, #23a6d5, #23d5ab); background-size: 100% 100%;'
+            ],
+            Setting::BACKGROUND_STYLE_GRADIENT_4 => [
+                'id' => Setting::BACKGROUND_STYLE_GRADIENT_4,
+                'title' => 'Gradient 4',
+                'color' => 'background: linear-gradient(-45deg, #ceb12d, #23d5ab); background-size: 100% 100%;'
             ],
         ];
     }

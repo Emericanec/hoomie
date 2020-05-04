@@ -3,9 +3,9 @@
         <button class="btn btn-outline-dark btn-block btn-lg preview-add-new-link-button"
                 v-on:click="addNewLinkCallback()">Add New Link
         </button>
-        <div class="preview-edit-page" :style="'background-color:' + backgroundStyle.color">
+        <div class="preview-edit-page" :style="backgroundColor">
             <div class="text-center">
-                <img style="width: 150px;" class="img-circle elevation-2"
+                <img style="width: 100px;" class="img-circle elevation-2"
                      src="https://scontent-ams4-1.cdninstagram.com/v/t51.2885-19/s150x150/54247715_2195250907184796_8702997699101720576_n.jpg?_nc_ht=scontent-ams4-1.cdninstagram.com&amp;_nc_ohc=MEyEmqsvTzIAX_wg9iv&amp;oh=152b9cd35d3d5283e03806c14fe4e2d3&amp;oe=5EC9B20C">
                 <br><br>
                 <div class="text-dark">
@@ -18,9 +18,7 @@
                     <div class="preview-drag-block">
                         <i class="nav-icon fas fa-arrows-alt-v handle preview-drag-icon"></i>
                     </div>
-                    <button :class="buttonClasses"
-                            :style="{marginTop: '8px', backgroundColor: link.settings.backgroundColor, color: link.settings.textColor}"
-                            v-on:click="editLinkCallback(link)" v-html="getLinkText(link)"></button>
+                    <styled-button :link="link" :style-id="buttonStyle.id" :click-callback="editLinkCallback"></styled-button>
                 </div>
             </draggable>
         </div>
@@ -29,6 +27,7 @@
 
 <script>
     import draggable from "vuedraggable";
+    import styledButton from "../../../components/styledButton";
 
     export default {
         name: "preview.vue",
@@ -54,7 +53,7 @@
         },
         computed: {
             backgroundColor() {
-                return this.backgroundColor.hasOwnProperty('color') ? this.backgroundColor.color : '#f4f6f9';
+                return this.backgroundStyle && this.backgroundStyle.hasOwnProperty('color') ? this.backgroundStyle.color : 'background-color: #f4f6f9';
             },
             buttonClasses() {
                 let classes = this.buttonStyle.hasOwnProperty('classes') ? this.buttonStyle.classes : '';
@@ -84,16 +83,10 @@
                     // todo
                 });
             },
-            getLinkText(link) {
-                let icon = '';
-                if (link.settings.hasOwnProperty('icon') && link.settings.icon.length) {
-                    icon = `<i class="${link.settings.icon}"></i>`;
-                }
-                return `${icon} ${link.title}`;
-            }
         },
         components: {
-            draggable
+            draggable,
+            'styled-button': styledButton
         }
     }
 </script>

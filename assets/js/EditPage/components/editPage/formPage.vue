@@ -68,9 +68,10 @@
             </div>
         </div>
         <div class="row" style="margin-top: 8px;">
-            <div :class="getColClass(form)">
-                <button v-html="exampleButtonTitle" class="btn btn-lg btn-block"
-                        :style="{backgroundColor: form.color, color: form.textColor}"></button>
+            <div :style="backgroundColor">
+                <div :class="getColClass(form)">
+                    <styled-button :link="form" :style-id="buttonStyle.id"></styled-button>
+                </div>
             </div>
         </div>
 
@@ -99,6 +100,7 @@
 <script>
     import {Swatches} from "vue-color";
     import iconChoose from "./iconChoose";
+    import styledButton from "../../../components/styledButton";
     import $ from "jquery";
 
     const MODE_MAIN = 'main';
@@ -117,7 +119,13 @@
             },
             editLink: {
                 type: Object
-            }
+            },
+            buttonStyle: {
+                type: Object
+            },
+            backgroundStyle: {
+                type: Object
+            },
         },
         beforeMount() {
             if (this.editLink.hasOwnProperty('id')) {
@@ -149,6 +157,10 @@
             }
         },
         computed: {
+            backgroundColor() {
+                let style = this.backgroundStyle && this.backgroundStyle.hasOwnProperty('color') ? this.backgroundStyle.color : 'background-color: #f4f6f9';
+                return style + ' width: 100%; padding: 40px;';
+            },
             isEditMode() {
                 return this.form.hasOwnProperty('id') && this.form.id !== null;
             },
@@ -233,7 +245,8 @@
         },
         components: {
             'swatches-picker': Swatches,
-            'icon-choose': iconChoose
+            'icon-choose': iconChoose,
+            'styled-button': styledButton
         }
     }
 </script>

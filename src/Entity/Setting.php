@@ -25,6 +25,10 @@ class Setting
     public const BACKGROUND_STYLE_LIGHT_GREY = 2;
     public const BACKGROUND_STYLE_DARK_GREY = 3;
     public const BACKGROUND_STYLE_BLACK = 4;
+    public const BACKGROUND_STYLE_GRADIENT_1 = 6;
+    public const BACKGROUND_STYLE_GRADIENT_2 = 7;
+    public const BACKGROUND_STYLE_GRADIENT_3 = 8;
+    public const BACKGROUND_STYLE_GRADIENT_4 = 9;
 
     /**
      * @ORM\Id()

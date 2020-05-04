@@ -7,7 +7,7 @@
                          :edit-link-callback="toForm">
                 </preview>
 
-                <formPage v-if="isForm" :editLink="linkEdit" :page-id="id" :back-callback="toMain">
+                <formPage v-if="isForm" :editLink="linkEdit" :page-id="id" :back-callback="toMain" :button-style="buttonStyle" :background-style="backgroundStyle">
                 </formPage>
             </div>
         </div>
