@@ -49,8 +49,10 @@
                         labels: this.getLabels(response.body),
                         datasets: [
                             {
-                                label: 'Page Visits',
+                                label: 'Page Views',
                                 backgroundColor: '#007bff',
+                                borderColor: '#007bff',
+                                fill: false,
                                 data: this.getDataSet(response.body)
                             },
                         ],
