@@ -4,12 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Repository\PageRepository;
+use App\Entity\Page;
+use App\Entity\Setting;
+use App\Manager\LinkStyleManager;
+use App\Manager\ThemeManager;
 use App\Repository\UserRepository;
-use App\Service\Analytics\Logger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PageController extends AbstractController
@@ -17,27 +18,48 @@ class PageController extends AbstractController
     /**
      * @Route("/{username}", name="p_index")
      * @param UserRepository $userRepository
-     * @param PageRepository $pageRepository
      * @param string $username
      * @return Response
      */
-    public function index(UserRepository $userRepository, PageRepository $pageRepository, string $username): Response
+    public function index(UserRepository $userRepository, string $username): Response
     {
+        // @todo уродство.
         $user = $userRepository->findByNickname($username);
         if (null === $user) {
-            throw new NotFoundHttpException('Not found');
+            throw $this->createNotFoundException();
         }
 
-        $page = $pageRepository->findOneByUrl($user->getId(), '/');
+        /** @var Page $page */
+        $page = current($user->getPages()->getValues());
         if (null === $page) {
-            throw new NotFoundHttpException('Not found');
+            throw $this->createNotFoundException();
         }
 
-        Logger::logVisitPage($page->getUser()->getId(), $page->getId());
+        $setting = $user->getSettings();
+
+        if (null === $setting) {
+            $setting = new Setting();
+            $setting->setBackgroundStyleId(Setting::BACKGROUND_STYLE_DEFAULT);
+            $setting->setButtonStyleId(Setting::BUTTON_STYLE_DEFAULT);
+        }
+
+        $backGroundStyle = (new ThemeManager($setting))->getBackgroundStyle();
+
+        $links = [];
+        foreach ($page->getSortedLinks() as $link) {
+            $settings = $link->getSettings();
+            $backgroundColor = $settings['backgroundColor'] ?? '#ffffff';
+            $textColor = $settings['textColor'] ?? '#000000';
+            $icon = $settings['icon'] ?? '';
+            $links[] = new LinkStyleManager($setting->getButtonStyleId(), $link->getTitle(), $textColor, $backgroundColor, $icon);
+        }
+
+        //Logger::logVisitPage($page->getUser()->getId(), $page->getId());
 
         return $this->render('page/main.html.twig', [
+            'links' => $links,
             'user' => $user,
-            'page' => $page
+            'backGroundStyle' => $backGroundStyle,
         ]);
     }
 }
