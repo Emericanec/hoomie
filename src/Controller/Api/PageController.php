@@ -8,6 +8,8 @@ use App\Entity\Link;
 use App\Entity\Setting;
 use App\Helper\JsonRequest;
 use App\Manager\ThemeManager;
+use App\Module\Api\Processor\LinkFormProcessor;
+use App\Module\Api\Request\LinkFormRequest;
 use App\Repository\LinkRepository;
 use App\Repository\PageRepository;
 use App\Repository\SettingRepository;
@@ -15,6 +17,7 @@ use App\Response\Api\ApiResponse;
 use App\Response\Api\PermissionDeniedResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PageController extends AbstractApiController
@@ -22,6 +25,7 @@ class PageController extends AbstractApiController
     /**
      * @Route("/api/page/{id}/getLayout")
      * @param PageRepository $pageRepository
+     * @param SettingRepository $settingRepository
      * @param int $id
      * @return Response
      */
@@ -80,7 +84,7 @@ class PageController extends AbstractApiController
      * @param int $linkId
      * @return Response
      */
-    public function deletePageLink(PageRepository $pageRepository, LinkRepository $linkRepository, int $id, int $linkId)
+    public function deletePageLink(PageRepository $pageRepository, LinkRepository $linkRepository, int $id, int $linkId): Response
     {
         $page = $pageRepository->findOneBy(['id' => $id, 'user' => $this->getCurrentUser()->getId()]);
 
@@ -133,39 +137,15 @@ class PageController extends AbstractApiController
 
     public function handle(Request $request, PageRepository $pageRepository, LinkRepository $linkRepository, int $id, int $linkId = null): Response
     {
-        // todo refactor
-        $jsonRequest = new JsonRequest($request);
-        $page = $pageRepository->findOneBy(['id' => $id, 'user' => $this->getCurrentUser()->getId()]);
-
-        if (null === $page) {
+        try {
+            $linkRequest = new LinkFormRequest($request, $this->getCurrentUser(), $id, $linkId);
+            $linkRequest->handle($pageRepository, $linkRepository);
+        } catch (AccessDeniedHttpException $exception) {
             return $this->json((new PermissionDeniedResponse())->toArray());
         }
 
-        if (null === $linkId) {
-            $model = new Link();
-        } else {
-            $model = $linkRepository->find($linkId);
-            if (null === $model || $model->getPage()->getId() !== $page->getId()) {
-                return $this->json((new PermissionDeniedResponse())->toArray());
-            }
-        }
-
-        $model->setTitle($jsonRequest->getString('title'));
-        $model->setPage($page);
-
-        $settings = [
-            'url' => $jsonRequest->getString('url', ''),
-            'backgroundColor' => $jsonRequest->getString('backgroundColor', '#007bff'),
-            'textColor' => $jsonRequest->getString('textColor', '#ffffff'),
-            'size' => $jsonRequest->getString('size', 12),
-            'icon' => $jsonRequest->getString('icon', ''),
-        ];
-
-        $model->setRawSettings(json_encode($settings, JSON_THROW_ON_ERROR, 512));
-
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($model);
-        $em->flush();
+        $processor = new LinkFormProcessor($linkRequest, $this->getDoctrine()->getManager());
+        $model = $processor->process();
 
         return $this->jsonResponse([
             ApiResponse::PARAM_RESULT => true,

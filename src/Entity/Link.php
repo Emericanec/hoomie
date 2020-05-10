@@ -18,8 +18,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
  */
 class Link
 {
-    const STATUS_DELETED = 0;
-    const STATUS_ACTIVE = 1;
+    public const STATUS_DELETED = 0;
+    public const STATUS_ACTIVE  = 1;
+
+    public const SETTINGS_FIELD_URL                 = 'url';
+    public const SETTINGS_FIELD_BACKGROUND_COLOR    = 'backgroundColor';
+    public const SETTINGS_FIELD_TEXT_COLOR          = 'textColor';
+    public const SETTINGS_FIELD_SIZE                = 'size';
+    public const SETTINGS_FIELD_ICON                = 'icon';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -113,7 +120,7 @@ class Link
      */
     public function getSettings(): array
     {
-        return json_decode($this->settings, true, 512, JSON_THROW_ON_ERROR);
+        return json_decode($this->getRawSettings(), true, 512, JSON_THROW_ON_ERROR);
     }
 
     public function getStatus(): int

@@ -20,13 +20,16 @@ class LinkStyleManager
 
     private string $hash;
 
-    public function __construct(int $buttonStyleId, string $title, string $textColor, string $backgroundColor, string $icon)
+    private string $url;
+
+    public function __construct(int $buttonStyleId, string $title, string $textColor, string $backgroundColor, string $icon, string $url)
     {
         $this->buttonStyleId = $buttonStyleId;
         $this->textColor = $textColor;
         $this->backgroundColor = $backgroundColor;
         $this->title = $title;
         $this->icon = $icon;
+        $this->url = $url;
         $this->hash = sha1(uniqid('', true));
     }
 
@@ -38,6 +41,11 @@ class LinkStyleManager
     public function getHash(): string
     {
         return $this->hash;
+    }
+
+    public function getUrl(): string
+    {
+        return $this->url;
     }
 
     public function getBorderColor(): string

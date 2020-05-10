@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Link;
 use App\Entity\Page;
 use App\Entity\Setting;
 use App\Manager\LinkStyleManager;
@@ -23,7 +24,6 @@ class PageController extends AbstractController
      */
     public function index(UserRepository $userRepository, string $username): Response
     {
-        // @todo уродство.
         $user = $userRepository->findByNickname($username);
         if (null === $user) {
             throw $this->createNotFoundException();
@@ -31,27 +31,11 @@ class PageController extends AbstractController
 
         /** @var Page $page */
         $page = current($user->getPages()->getValues());
-        if (null === $page) {
-            throw $this->createNotFoundException();
-        }
-
         $setting = $user->getSettings();
-
-        if (null === $setting) {
-            $setting = new Setting();
-            $setting->setBackgroundStyleId(Setting::BACKGROUND_STYLE_DEFAULT);
-            $setting->setButtonStyleId(Setting::BUTTON_STYLE_DEFAULT);
-        }
-
-        $backGroundStyle = (new ThemeManager($setting))->getBackgroundStyle();
 
         $links = [];
         foreach ($page->getSortedLinks() as $link) {
-            $settings = $link->getSettings();
-            $backgroundColor = $settings['backgroundColor'] ?? '#ffffff';
-            $textColor = $settings['textColor'] ?? '#000000';
-            $icon = $settings['icon'] ?? '';
-            $links[] = new LinkStyleManager($setting->getButtonStyleId(), $link->getTitle(), $textColor, $backgroundColor, $icon);
+            $links[] = $this->getLinkStyleManager($link, $setting);
         }
 
         //Logger::logVisitPage($page->getUser()->getId(), $page->getId());
@@ -59,7 +43,17 @@ class PageController extends AbstractController
         return $this->render('page/main.html.twig', [
             'links' => $links,
             'user' => $user,
-            'backGroundStyle' => $backGroundStyle,
+            'backGroundStyle' => (new ThemeManager($setting))->getBackgroundStyle(),
         ]);
+    }
+
+    private function getLinkStyleManager(Link $link, Setting $setting): LinkStyleManager
+    {
+        $settings = $link->getSettings();
+        $backgroundColor = $settings[Link::SETTINGS_FIELD_BACKGROUND_COLOR] ?? '#ffffff';
+        $textColor = $settings[Link::SETTINGS_FIELD_TEXT_COLOR] ?? '#000000';
+        $icon = $settings[Link::SETTINGS_FIELD_ICON] ?? '';
+        $url = $settings[Link::SETTINGS_FIELD_URL] ?? '';
+        return new LinkStyleManager($setting->getButtonStyleId(), $link->getTitle(), $textColor, $backgroundColor, $icon, $url);
     }
 }
