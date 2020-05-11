@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Response;
 
+use Closure;
 use LogicException;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -20,9 +21,9 @@ class EarlyResponse extends Response
     }
 
     /**
-     * @param $callback
+     * @param Closure $callback
      */
-    public function setTerminateCallback($callback): void
+    public function setTerminateCallback(Closure $callback): void
     {
         if (!is_callable($callback)) {
             throw new LogicException('The Response callback must be a valid PHP callable.');
@@ -42,7 +43,7 @@ class EarlyResponse extends Response
         $this->sendContent();
         static::closeOutputBuffers(1, true);
 
-        $this->headers->set('Content-Length', ob_get_length());
+        $this->headers->set('Content-Length', (string)ob_get_length());
         $this->headers->set('Connection', 'close');
         $this->headers->set('Content-Encoding', 'none');
 
