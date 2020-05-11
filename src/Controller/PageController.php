@@ -54,6 +54,6 @@ class PageController extends AbstractController
         $textColor = $settings[Link::SETTINGS_FIELD_TEXT_COLOR] ?? '#000000';
         $icon = $settings[Link::SETTINGS_FIELD_ICON] ?? '';
         $url = $settings[Link::SETTINGS_FIELD_URL] ?? '';
-        return new LinkStyleManager($setting->getButtonStyleId(), $link->getTitle(), $textColor, $backgroundColor, $icon, $url);
+        return new LinkStyleManager($setting->getButtonStyleId(), $link->getId(), $link->getTitle(), $textColor, $backgroundColor, $icon, $url);
     }
 }

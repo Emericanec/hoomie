@@ -10,6 +10,8 @@ class LinkStyleManager
 {
     private int $buttonStyleId;
 
+    private int $linkId;
+
     private string $textColor;
 
     private string $backgroundColor;
@@ -22,8 +24,9 @@ class LinkStyleManager
 
     private string $url;
 
-    public function __construct(int $buttonStyleId, string $title, string $textColor, string $backgroundColor, string $icon, string $url)
+    public function __construct(int $buttonStyleId, int $linkId, string $title, string $textColor, string $backgroundColor, string $icon, string $url)
     {
+        $this->linkId = $linkId;
         $this->buttonStyleId = $buttonStyleId;
         $this->textColor = $textColor;
         $this->backgroundColor = $backgroundColor;
@@ -31,6 +34,11 @@ class LinkStyleManager
         $this->icon = $icon;
         $this->url = $url;
         $this->hash = sha1(uniqid('', true));
+    }
+
+    public function getLinkId(): int
+    {
+        return $this->linkId;
     }
 
     public function getTitle(): string

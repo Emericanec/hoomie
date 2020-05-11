@@ -10,7 +10,7 @@
                     <div class="col-md-6 offset-md-3 col-sm-12">
                         <br>
                         <div class="text-center">
-                            <img style="width: 150px;" class="img-circle elevation-2"
+                            <img style="width: 100px;" class="img-circle elevation-2"
                                  src="{{ user.getProfileImageUrl }}">
                             <br><br>
                             <div class="text-dark">
@@ -20,7 +20,7 @@
                         <br>
                         <div>
                             {% for link in links %}
-                                <button onclick="location.href = '{{ '' }}'" class="btn btn-block btn-lg btn-{{ link.getHash() }}">
+                                <button onclick="redirect('{{ link.getUrl() }}', {{ link.getLinkId }})" class="btn btn-block btn-lg btn-{{ link.getHash() }}">
                                     {{ link.getIconHtml() | raw }}
                                     {{ link.getTitle() }}
                                 </button>
@@ -46,4 +46,13 @@
             }
         {% endfor %}
     </style>
+
+    <script>
+        function redirect(link, linkId)
+        {
+            $.get('/api/statistics/' + linkId, function(){
+                location.href = link;
+            });
+        }
+    </script>
 {% endblock %}
