@@ -187,6 +187,10 @@ class User implements InstagramUserInterface
         return $this->isActivated;
     }
 
+//    public function lol() {
+//        return 77;
+//    }
+
     /**
      * @return Collection|Goods[]
      */

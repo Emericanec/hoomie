@@ -2,7 +2,7 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="1ff7d4bf-d3ef-4b00-9ae4-322820e95b12" name="hoomie" url="http://188.166.15.234">
+      <webServer id="1ff7d4bf-d3ef-4b00-9ae4-322820e95b12" name="hoomie" url="https://locuma.hoomie.co/">
         <fileTransfer host="188.166.15.234" port="22" rootFolder="/var/www/html/locuma" accessType="SFTP">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" />
