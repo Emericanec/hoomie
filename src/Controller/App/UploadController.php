@@ -56,8 +56,8 @@ class UploadController extends AbstractAppController
         return $this->json([
             'success' => true,
             'file_id' => $file->getId(),
-            'key' => $file->getS3Key(),
-            'result' => $response->getResult()->toArray()
+            'url' => $file->getUrl(),
+            'key' => $file->getS3Key()
         ]);
     }
 }

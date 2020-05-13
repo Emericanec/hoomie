@@ -71,6 +71,18 @@ class User implements InstagramUserInterface
      */
     private Collection $goods;
 
+    /**
+     * @var Collection|Page[]
+     * @ORM\OneToMany(targetEntity="App\Entity\Page", mappedBy="user")
+     */
+    private Collection $pages;
+
+    /**
+     * @var Setting
+     * @ORM\OneToOne(targetEntity="App\Entity\Setting", mappedBy="user")
+     */
+    private Setting $settings;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -197,5 +209,21 @@ class User implements InstagramUserInterface
     public function getGoods(): Collection
     {
         return $this->goods;
+    }
+
+    /**
+     * @return Collection|Page[]
+     */
+    public function getPages(): Collection
+    {
+        return $this->pages;
+    }
+
+    /**
+     * @return Setting
+     */
+    public function getSettings(): Setting
+    {
+        return $this->settings;
     }
 }

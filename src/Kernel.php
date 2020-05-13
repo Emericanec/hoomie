@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Response\EarlyResponse;
 use Symfony\Bundle\FrameworkBundle\Kernel\MicroKernelTrait;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
 use Symfony\Component\Routing\RouteCollectionBuilder;
 
@@ -50,5 +53,21 @@ class Kernel extends BaseKernel
         $routes->import($confDir.'/{routes}/'.$this->environment.'/*'.self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir.'/{routes}/*'.self::CONFIG_EXTS, '/', 'glob');
         $routes->import($confDir.'/{routes}'.self::CONFIG_EXTS, '/', 'glob');
+    }
+
+    public function terminate(Request $request, Response $response)
+    {
+
+        ob_start();
+        //Run this stuff before the terminate events
+        if ($response instanceof EarlyResponse) {
+            $response->callTerminateCallback();
+        }
+        //Trigger the terminate events
+        parent::terminate($request, $response);
+
+        //Optionally, we can output the buffer that will get cleaned to a file before discarding its contents
+        //file_put_contents('/tmp/process.log', ob_get_contents());
+        ob_end_clean();
     }
 }

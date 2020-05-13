@@ -44,6 +44,16 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * @Route("/local", name="local")
+     * @return Response
+     * @throws Exception
+     */
+    public function local(): Response
+    {
+        return $this->redirect('login');
+    }
+
+    /**
      * @Route("/oauth/error", name="oauth_error")
      * @return Response
      */

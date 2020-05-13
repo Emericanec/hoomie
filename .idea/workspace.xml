@@ -2,15 +2,102 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c38aa2b1-da7b-4f8a-b135-87224246a1c2" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/Controller/EmailTemplateController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/email/confirmed.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/hoomie.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/hoomie.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/webServers.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/webServers.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/css/adminlte.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/AnalyticsPage/components/AnalyticsPage.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/AnalyticsPage/components/AnalyticsPage/Line.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/AnalyticsPage/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/EditPage/components/editPage.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/EditPage/components/editPage/formPage.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/EditPage/components/editPage/iconChoose.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/EditPage/components/editPage/preview.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/EditPage/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/components/styledButton.vue" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/js/vue.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/image/phone.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Builder/PagesDataTableBuilder.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/Api/AbstractApiController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/Api/AnalyticsController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/Api/PageController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/Api/StatisticsController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/App/AnalyticsController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/App/PagesController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/App/ThemesController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/PageController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/Link.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/Page.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/Setting.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Helper/Env.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Helper/JsonRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Manager/LinkStyleManager.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Manager/ThemeManager.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Migrations/Version20200420182001.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Migrations/Version20200421191823.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Migrations/Version20200426122929.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Migrations/Version20200426123031.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Migrations/Version20200503101617.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Migrations/Version20200503204440.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Module/Api/Processor/LinkFormProcessor.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Module/Api/Request/LinkFormRequest.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/LinkRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/PageRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Repository/SettingRepository.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Response/Api/ApiResponse.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Response/Api/ApiResponseInterface.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Response/Api/PermissionDeniedResponse.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Response/Api/StatisticResponse.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Response/EarlyResponse.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/Analytics/Entity/Page.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/Analytics/Event.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/Analytics/Logger.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/ElasticSearch/ElasticSearch.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/ElasticSearch/ElasticSearchEvents.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/ElasticSearch/ElasticSearchIndex.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/ElasticSearch/EventInterface.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/Instagram/InstagramBasicDisplay.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/app/analytics/index.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/app/pages/edit.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/app/pages/list.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/app/themes/index.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/index.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/page.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/page/main.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/php.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/php.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/css/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/css/app.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/adminlte.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/adminlte.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/js/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/js/bootstrap.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/routes/annotations.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes/annotations.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/phpstan.neon" beforeDir="false" afterPath="$PROJECT_DIR$/phpstan.neon" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/App/GoodsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/App/GoodsController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/App/MainController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/App/MainController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/App/UploadController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/App/UploadController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/IndexController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/IndexController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/SecurityController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/SecurityController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/Shop/ShopController.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/email/confirm_email.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/email/confirm_email.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Enum/Error.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Enum/Error.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Kernel.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Kernel.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Processor/InstagramOAuthResponseProcessor.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Processor/InstagramOAuthResponseProcessor.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/FileRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/FileRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Security/TokenAuthenticator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/TokenAuthenticator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/Instagram/InstagramApi.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Instagram/InstagramApi.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Widget/DataTable/DataTableWidget.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Widget/DataTable/DataTableWidget.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/_block/admin_navbar.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/_block/admin_navbar.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/_block/navbar.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/_block/navbar.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/admin.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/app/goods/form.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/app/goods/form.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/app/goods/list.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/app/goods/list.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/app/main.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/app/main.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/shop/item.html.twig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/widget/data_table/goods_list.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/widget/data_table/default_list.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -54,11 +141,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="IndexController.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="IndexController.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Controller/IndexController.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="255">
-              <caret line="17" column="5" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
+              <caret line="21" column="42" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -67,7 +154,7 @@
         <entry file="file://$PROJECT_DIR$/src/Controller/SecurityController.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="660">
-              <caret line="55" column="16" selection-start-line="55" selection-start-column="16" selection-end-line="55" selection-end-column="16" />
+              <caret line="65" column="16" selection-start-line="65" selection-start-column="16" selection-end-line="65" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -81,11 +168,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="User.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="User.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Entity/User.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="325">
-              <caret line="75" column="22" selection-start-line="75" selection-start-column="22" selection-end-line="75" selection-end-column="22" />
+            <state relative-caret-position="-12">
+              <caret line="87" column="22" selection-start-line="87" selection-start-column="22" selection-end-line="87" selection-end-column="22" />
               <folding>
                 <element signature="e#56#99#0#PHP" expanded="true" />
               </folding>
@@ -186,7 +273,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/Controller/IndexController.php" />
         <option value="$PROJECT_DIR$/src/Controller/SecurityController.php" />
         <option value="$APPLICATION_CONFIG_DIR$/consoles/db/9151c605-1954-4751-8c0a-9978f7aefd1c/console.sql" />
         <option value="$PROJECT_DIR$/var/cache/dev/url_generating_routes.php" />
@@ -195,6 +281,7 @@
         <option value="$PROJECT_DIR$/templates/email/confirmed.html.twig" />
         <option value="$PROJECT_DIR$/src/Controller/EmailTemplateController.php" />
         <option value="$PROJECT_DIR$/src/Entity/User.php" />
+        <option value="$PROJECT_DIR$/src/Controller/IndexController.php" />
       </list>
     </option>
   </component>
@@ -300,15 +387,16 @@
       <workItem from="1587388999261" duration="17914000" />
       <workItem from="1587947012619" duration="4226000" />
       <workItem from="1588760802702" duration="11149000" />
-      <workItem from="1589331703598" duration="8972000" />
+      <workItem from="1589331703598" duration="10571000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="51163000" />
+    <option name="totallyTimeSpent" value="52762000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1299" height="743" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.5003849" side_tool="true" weight="0.2827804" />
@@ -628,17 +716,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Controller/IndexController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="5" selection-start-line="17" selection-start-column="5" selection-end-line="17" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Controller/SecurityController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="660">
-          <caret line="55" column="16" selection-start-line="55" selection-start-column="16" selection-end-line="55" selection-end-column="16" />
+          <caret line="65" column="16" selection-start-line="65" selection-start-column="16" selection-end-line="65" selection-end-column="16" />
         </state>
       </provider>
     </entry>
@@ -682,11 +763,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Entity/User.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="75" column="22" selection-start-line="75" selection-start-column="22" selection-end-line="75" selection-end-column="22" />
+        <state relative-caret-position="-12">
+          <caret line="87" column="22" selection-start-line="87" selection-start-column="22" selection-end-line="87" selection-end-column="22" />
           <folding>
             <element signature="e#56#99#0#PHP" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Controller/IndexController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="21" column="42" selection-start-line="21" selection-start-column="42" selection-end-line="21" selection-end-column="42" />
         </state>
       </provider>
     </entry>

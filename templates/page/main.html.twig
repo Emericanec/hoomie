@@ -1,0 +1,58 @@
+{% extends 'page.html.twig' %}
+
+{% block title %}Hoomie{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        <div class="content-wrapper" style="margin-left: 0; {{ backGroundStyle['color'] }}">
+            <section class="content">
+                <div class="row">
+                    <div class="col-md-6 offset-md-3 col-sm-12">
+                        <br>
+                        <div class="text-center">
+                            <img style="width: 100px;" class="img-circle elevation-2"
+                                 src="{{ user.getProfileImageUrl }}">
+                            <br><br>
+                            <div class="text-dark">
+                                @{{ user.getInstagramNickname }}
+                            </div>
+                        </div>
+                        <br>
+                        <div>
+                            {% for link in links %}
+                                <button onclick="redirect('{{ link.getUrl() }}', {{ link.getLinkId }})" class="btn btn-block btn-lg btn-{{ link.getHash() }}">
+                                    {{ link.getIconHtml() | raw }}
+                                    {{ link.getTitle() }}
+                                </button>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <style>
+        {% for link in links %}
+            .btn-{{ link.getHash() }} {
+                border-radius: {{ link.getBorderRadius() }};
+                border: {{ link.getBorderColor() }} solid 1px;
+                background-color: {{ link.getBackgroundColor() }};
+                color: {{ link.getTextColor() }};
+            }
+            .btn-{{ link.getHash() }}:hover {
+                background-color: {{ link.getHoverBackgroundColor() }};
+                color: {{ link.getHoverTextColor() }};
+            }
+        {% endfor %}
+    </style>
+
+    <script>
+        function redirect(link, linkId)
+        {
+            $.get('/api/statistics/' + linkId, function(){
+                location.href = link;
+            });
+        }
+    </script>
+{% endblock %}

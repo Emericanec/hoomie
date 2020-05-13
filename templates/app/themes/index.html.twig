@@ -1,0 +1,66 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Hoomie | Themes{% endblock %}
+
+{% block body %}
+    <!-- Main content -->
+    <div class="content">
+        <div class="row">
+            <div class="col-sm-12 col-md-6 offset-md-3">
+                <form method="post">
+                    <br>
+                    <div class="card form-page-card">
+                        <div class="card-header">
+                            <h1>Themes</h1>
+                        </div>
+                        <div class="card-body">
+                            <h3>Button style:</h3>
+                            <div class="row">
+                                {% for style in buttonStyles %}
+                                    <div class="col-12 col-lg-6" style="margin-bottom: 10px;">
+                                        <div class="icheck-primary d-inline">
+                                            <input type="radio"
+                                                   id="button_style_{{ style.id }}"
+                                                   name="button_style"
+                                                   value="{{ style.id }}"
+                                                    {% if buttonStyle.id is same as(style.id) %}
+                                                        checked=""
+                                                    {% endif %}
+                                            >
+                                            <label for="button_style_{{ style.id }}"></label>
+                                        </div>
+                                        <button type="button" class="btn btn-lg {{ style.classes }}">{{ style.title }}</button>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <hr>
+                            <h3>Background style:</h3>
+                            <div class="row">
+                                {% for style in backgroundStyles %}
+                                    <div class="col-6 col-lg-3" style="margin-bottom: 10px; min-width: 145px;">
+                                        <div class="icheck-primary">
+                                            <input type="radio"
+                                                   id="background_style_{{ style.id }}"
+                                                   name="background_style"
+                                                   value="{{ style.id }}"
+                                                    {% if backgroundStyle.id is same as(style.id) %}
+                                                        checked=""
+                                                    {% endif %}
+                                            >
+                                            <label for="background_style_{{ style.id }}">{{ style.title }}</label>
+                                        </div>
+                                        <div style="width: 100px; height: 100px; display: inline-block; border-radius: 20px; {{ style.color }}"></div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary float-right">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /.content -->
+{% endblock %}

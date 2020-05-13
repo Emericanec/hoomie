@@ -39,9 +39,26 @@ button.navbar-toggler:focus {
     color: rgba(0, 0, 0, 0.8);
 }
 
+div.spa_top_gradient h1{
+    font-size: 3rem;
+}
+
 @media (max-width: 992px) {
     .navbar-collapse.collapse{
         border-bottom: 1px solid;
+    }
+
+    button.navbar-toggler
+    {
+        display: none;
+    }
+
+    div.spa_top_gradient h1{
+        font-size: 2rem;
+    }
+
+    div.spa_top_gradient h5{
+        font-size: 1rem;
     }
 }
 

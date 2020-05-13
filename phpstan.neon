@@ -3,3 +3,4 @@ parameters:
 		- vendor/autoload.php
 	excludes_analyse:
 		- src/Migrations/*
+		- src/Service/Analytics/Entity/Page.php
