@@ -1,6 +1,11 @@
 <template>
     <div>
         <div class="row">
+            <div class="col-2" style="margin-bottom: 15px;">
+                <button class="btn btn-block btn-lg btn-dark" v-on:click="chooseInput('')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
             <div class="col-2" v-for="icon in icons" style="margin-bottom: 15px;">
                 <button class="btn btn-block btn-lg btn-outline-dark" v-on:click="chooseInput(icon)">
                     <i :class="icon"></i>

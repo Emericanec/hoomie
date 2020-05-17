@@ -67,4 +67,49 @@ class Page
 
         return $resultStats;
     }
+
+    public function getTotalViews(): int
+    {
+        $aggregationName = 'value_count';
+
+        $search = new Search($this->client);
+        $search->addIndex(ElasticSearchIndex::INDEX_EVENTS);
+
+        $filter = $this->queryBuilder->query()->bool()->addMust([
+            $this->queryBuilder->query()->match(Event::PARAM_EVENT_TYPE, Event::TYPE_VISIT_PAGE),
+            $this->queryBuilder->query()->match(Event::PARAM_EVENT_ID, $this->page->getId())
+        ]);
+
+        $aggregation = $this->queryBuilder->aggregation()->value_count($aggregationName, Event::PARAM_EVENT_ID);
+        $query = (new Query())->setQuery($filter)->addAggregation($aggregation);
+        $search->setQuery($query);
+
+        $result = $search->search();
+        return (int)($result->getAggregation($aggregationName)['value'] ?? 0);
+    }
+
+    public function getTotalClicks(): int
+    {
+        $aggregationName = 'value_count';
+
+        $search = new Search($this->client);
+        $search->addIndex(ElasticSearchIndex::INDEX_EVENTS);
+
+        $args = [];
+        foreach ($this->page->getLinks() as $link) {
+            $args[] = $this->queryBuilder->query()->term()->setTerm(Event::PARAM_EVENT_ID, $link->getId());
+        }
+
+        $filter = $this->queryBuilder->query()->bool()->addMust([
+            $this->queryBuilder->query()->match(Event::PARAM_EVENT_TYPE, Event::TYPE_VISIT_LINK),
+            $this->queryBuilder->query()->bool()->addShould($args)->setMinimumShouldMatch(1)
+        ]);
+
+        $aggregation = $this->queryBuilder->aggregation()->value_count($aggregationName, Event::PARAM_EVENT_ID);
+        $query = (new Query())->setQuery($filter)->addAggregation($aggregation);
+        $search->setQuery($query);
+
+        $result = $search->search();
+        return (int)($result->getAggregation($aggregationName)['value'] ?? 0);
+    }
 }

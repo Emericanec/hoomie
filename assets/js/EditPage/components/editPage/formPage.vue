@@ -56,7 +56,7 @@
                         Choose Text Color
                     </button>
                 </div>
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label>Size:</label>
                     <br>
                     <div class="btn-group">
@@ -64,7 +64,7 @@
                         <button type="button" class="btn btn-outline-dark" v-on:click="changeSize(6)">Medium</button>
                         <button type="button" class="btn btn-outline-dark" v-on:click="changeSize(12)">Large</button>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
         <div class="row" style="margin-top: 8px;">
@@ -134,7 +134,7 @@
                     url: this.editLink.settings.url || '',
                     title: this.editLink.title || '',
                     size: this.editLink.settings.size || 12,
-                    color: this.editLink.settings.backgroundColor || '#007bff',
+                    color: this.editLink.settings.backgroundColor || '#000000',
                     textColor: this.editLink.settings.textColor || '#ffffff',
                     icon: this.editLink.settings.icon || ''
                 };
@@ -144,7 +144,7 @@
                     url: '',
                     title: '',
                     size: 12,
-                    color: '#007bff',
+                    color: '#000000',
                     textColor: '#ffffff',
                     icon: ''
                 };

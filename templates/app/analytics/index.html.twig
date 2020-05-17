@@ -3,5 +3,39 @@
 {% block title %}Hoomie | Analytics{% endblock %}
 
 {% block body %}
-    <div id="vue-analytics-page" data-id="{{ userId }}"></div>
+    <div class="container">
+        <br><br>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-users"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Total views</span>
+                        <span class="info-box-number">{{ totalViews }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-success elevation-1"><i class="fas fa-mouse-pointer"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Total clicks</span>
+                        <span class="info-box-number">{{ totalClicks }}</span>
+                    </div>
+                </div>
+            </div>
+            {% for link in links %}
+            <div class="col-12 col-lg-3 col-md-4">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon elevation-1" style="background: {{ link.getBackgroundColor }}; color: {{ link.getTextColor }};"><i class="{{ link.getIcon }}"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">{{ link.getTitle }}</span>
+                        <span class="info-box-number">{{ link.getTotalClicks }} clicks</span>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div id="vue-analytics-page" data-id="{{ userId }}"></div>
+    </div>
 {% endblock %}
