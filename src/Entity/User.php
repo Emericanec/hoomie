@@ -225,6 +225,14 @@ class User implements InstagramUserInterface
     }
 
     /**
+     * @return Page
+     */
+    public function getMainPage(): Page
+    {
+        return current($this->getPages()->getValues());
+    }
+
+    /**
      * @return Setting
      */
     public function getSettings(): Setting

@@ -10,6 +10,7 @@ use App\Entity\Setting;
 use App\Manager\LinkStyleManager;
 use App\Manager\ThemeManager;
 use App\Repository\UserRepository;
+use App\Service\Analytics\Logger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,7 +39,7 @@ class PageController extends AbstractController
             $links[] = $this->getLinkStyleManager($link, $setting);
         }
 
-        //Logger::logVisitPage($page->getUser()->getId(), $page->getId());
+        Logger::logVisitPage($page->getUser()->getId(), $page->getId());
 
         return $this->render('page/main.html.twig', [
             'links' => $links,

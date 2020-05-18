@@ -1,6 +1,6 @@
 <template>
     <div class="row">
-        <div class="col-12 col-md-10 offset-md-1">
+        <div class="col-12">
             <br>
             <div class="card">
                 <div class="card-header">
@@ -29,7 +29,15 @@
         computed: {
             chartOptions() {
                 return {
-                    maintainAspectRatio: false
+                    maintainAspectRatio: false,
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                beginAtZero: true,
+                                stepSize: 1,
+                            }
+                        }]
+                    }
                 }
             }
         },
