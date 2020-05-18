@@ -13,7 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  *     name="user",
  *     indexes={
  *          @ORM\Index(name="idx_instagram_user_id", columns={"instagram_user_id"}),
- *          @ORM\Index(name="idx_instagram_nickname", columns={"instagram_nickname"})
+ *          @ORM\Index(name="idx_instagram_nickname", columns={"instagram_nickname"}),
+ *          @ORM\Index(name="idx_personal_hash", columns={"personal_hash"})
  *     },
  *)
  */
@@ -60,6 +61,12 @@ class User implements InstagramUserInterface
     private ?string $profileImageUrl = null;
 
     /**
+     * @var string
+     * @ORM\Column(name="personal_hash", type="string", unique=true, nullable=true)
+     */
+    private ?string $personalHash;
+
+    /**
      * @var bool
      * @ORM\Column(name="is_activated", type="boolean")
      */
@@ -82,6 +89,8 @@ class User implements InstagramUserInterface
      * @ORM\OneToOne(targetEntity="App\Entity\Setting", mappedBy="user")
      */
     private Setting $settings;
+
+
 
     public function getId(): ?int
     {
@@ -198,10 +207,6 @@ class User implements InstagramUserInterface
     {
         return $this->isActivated;
     }
-
-//    public function lol() {
-//        return 77;
-//    }
 
     /**
      * @return Collection|Goods[]

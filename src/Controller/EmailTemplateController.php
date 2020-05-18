@@ -17,44 +17,23 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class EmailTemplateController extends AbstractController
 {
-    /**
-     *   @Route("email/confirm_email/{userId}", name="confirm_email")
-     *   @return Response
-     */
-    public function confirmEmail(int $userId) : Response
-    {
-        $confirmUrlForUser = $this->generateUrl('confirm_email', [
-            'userId' => $userId,
-        ]);
-        $lol = $_SERVER['HTTPS'];
-        $siteAddress = $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["HTTP_HOST"];
-        var_dump($siteAddress);
-        return $this->render('email/confirm_email.html.twig', [
-            'confirmEmail' => $confirmUrlForUser,
-            'lol' => $siteAddress
-        ]);
-    }
 
     /**
      *   @Route("email/confirmed/{userId}", name="confirmed")
      *   @return Response
      */
-    public function sendMessageToConfirm(int $userId)
+    public function sendMessageToConfirm(int $userId) : Response
     {
-        $message = '';
-        $user = $this->getDoctrine()->getManager();
-        $currentUser = $user->getRepository(User::class)->find($userId);
-        var_dump($currentUser->getInstagramNickname());
-//        var_dump($currentUser->lol());
-        var_dump($currentUser->getIsActivated());
-
+        $em = $this->getDoctrine()->getManager();
+        $currentUser = $em->getRepository(User::class)->find($userId);
 
         if (empty($currentUser)) {
             $message = 'Что-то пошло не так';
 
         } else {
-//            $currentUser->setIsActivated(true);
-//            $currentUser->getIsActivated();
+            $currentUser->setIsActivated(true);
+            $em->persist($currentUser);
+            $em->flush();
             $message = 'Аккаунт активирован';
         }
         return $this->render('email/confirmed.html.twig', [

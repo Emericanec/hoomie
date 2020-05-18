@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SecurityController extends AbstractController
 {
@@ -79,7 +80,9 @@ class SecurityController extends AbstractController
 
         /** @var User $user */
         $user = $security->getUser();
-
+        $emailTemplate = new EmailTemplateController();
+//        $confirmUri = $emailTemplate->createConfirmEmailUri($user->getId());
+//        var_dump($confirmUri); exit;
         if (null !== $user->getEmail()) {
             return $this->redirectToRoute('app_main');
         }
@@ -89,14 +92,27 @@ class SecurityController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-
+            $confirmUri = $this->createConfirmEmailUri($user->getId());
+//            var_dump($confirmUri); exit;
+            $siteUrl = $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["HTTP_HOST"];
             $mailProcessor = new DefaultMailProcessor($mailer, 'Confirm your email', 'email/confirm_email.html.twig');
-            $mailProcessor->send($email, []);
+            $mailProcessor->send($email, [
+                'siteUrl'=> $siteUrl,
+                'confirmEmail' => $confirmUri
+            ]);
 
             return $this->redirectToRoute('app_main');
         }
 
         return $this->render('security/step2.html.twig');
+    }
+
+    private function createConfirmEmailUri(int $userId) : string
+    {
+        $uri = $this->generateUrl('confirmed', [
+            'userId' => $userId
+        ], UrlGeneratorInterface::ABSOLUTE_URL);
+        return $uri;
     }
 
     /**
