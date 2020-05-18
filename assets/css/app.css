@@ -21,6 +21,7 @@ body {
 
 #main_logo_header {
     font-family: 'Megrim', sans-serif;
+    width: 86px;
 }
 
 .navbar-light .navbar-toggler {
