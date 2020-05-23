@@ -11,7 +11,7 @@
                 '--hover-opacity': hoverOpacity,
                 marginTop: '8px',
             }"
-            v-on:click="clickCallback(link)"
+            v-on:click="clickCallback({}, link)"
             v-html="getLinkText(link)"></button>
 </template>
 

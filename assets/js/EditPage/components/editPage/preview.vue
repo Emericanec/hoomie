@@ -1,7 +1,7 @@
 <template>
     <div>
         <button class="btn btn-outline-dark btn-block btn-lg preview-add-new-link-button"
-                v-on:click="addNewLinkCallback()">Add New Link
+                v-on:click="addNewBlockCallback()">Add New Block
         </button>
         <div class="preview-edit-page" :style="backgroundColor">
             <div class="text-center">
@@ -44,7 +44,7 @@
             value: {
                 type: Array
             },
-            addNewLinkCallback: {
+            addNewBlockCallback: {
                 type: Function
             },
             editLinkCallback: {
