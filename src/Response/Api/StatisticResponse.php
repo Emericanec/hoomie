@@ -18,10 +18,12 @@ class StatisticResponse implements ApiResponseInterface
         $result = [];
         foreach ($this->data as $data)
         {
-            $result[$data['index']] = [
-                'label' => $data['label'],
-                'count' => $data['count'],
-            ];
+            if (isset($data['index'])) {
+                $result[$data['index']] = [
+                    'label' => $data['label'],
+                    'count' => $data['count'],
+                ];
+            }
         }
         return $result;
     }

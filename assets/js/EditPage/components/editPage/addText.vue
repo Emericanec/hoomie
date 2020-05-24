@@ -24,38 +24,31 @@
                             <i class="fas fa-underline"/>
                         </button>
 
-                        <button class="btn" :class="{ 'is-active': isActive.heading({ level: 1 }) }"
-                                @click="commands.heading({ level: 1 })">
+                        <button class="btn" :class="{ 'is-active': isActive.heading({ level: 1 }) }" @click="commands.heading({ level: 1 })">
                             H1
                         </button>
 
-                        <button class="btn" :class="{ 'is-active': isActive.heading({ level: 2 }) }"
-                                @click="commands.heading({ level: 2 })">
+                        <button class="btn" :class="{ 'is-active': isActive.heading({ level: 2 }) }" @click="commands.heading({ level: 2 })">
                             H2
                         </button>
 
-                        <button class="btn" :class="{ 'is-active': isActive.heading({ level: 3 }) }"
-                                @click="commands.heading({ level: 3 })">
+                        <button class="btn" :class="{ 'is-active': isActive.heading({ level: 3 }) }" @click="commands.heading({ level: 3 })">
                             H3
                         </button>
 
-                        <button class="btn" :class="{ 'is-active': isActive.bullet_list() }"
-                                @click="commands.bullet_list">
+                        <button class="btn" :class="{ 'is-active': isActive.bullet_list() }" @click="commands.bullet_list">
                             <i class="fas fa-list-ul"/>
                         </button>
 
-                        <button class="btn" :class="{ 'is-active': isActive.ordered_list() }"
-                                @click="commands.ordered_list">
+                        <button class="btn" :class="{ 'is-active': isActive.ordered_list() }" @click="commands.ordered_list">
                             <i class="fas fa-list-ol"/>
                         </button>
 
-                        <button class="btn" :class="{ 'is-active': isActive.blockquote() }"
-                                @click="commands.blockquote">
+                        <button class="btn" :class="{ 'is-active': isActive.blockquote() }" @click="commands.blockquote">
                             <i class="fas fa-quote-left"/>
                         </button>
 
-                        <button class="btn" :class="{ 'is-active': isActive.code_block() }"
-                                @click="commands.code_block">
+                        <button class="btn" :class="{ 'is-active': isActive.code_block() }" @click="commands.code_block">
                             <i class="fas fa-code"/>
                         </button>
 
