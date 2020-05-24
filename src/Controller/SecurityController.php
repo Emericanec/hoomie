@@ -81,19 +81,18 @@ class SecurityController extends AbstractController
         /** @var User $user */
         $user = $security->getUser();
         $emailTemplate = new EmailTemplateController();
-//        $confirmUri = $emailTemplate->createConfirmEmailUri($user->getId());
-//        var_dump($confirmUri); exit;
         if (null !== $user->getEmail()) {
             return $this->redirectToRoute('app_main');
         }
 
         if (null !== $email && is_string($email)) {
             $user->setEmail($email);
+            $personalHash = md5($user->getInstagramNickname());
+            $user->setPersonalHash($personalHash);
             $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-            $confirmUri = $this->createConfirmEmailUri($user->getId());
-//            var_dump($confirmUri); exit;
+            $confirmUri = $this->createConfirmEmailUri($user->getInstagramNickname());
             $siteUrl = $_SERVER["REQUEST_SCHEME"] . '://' . $_SERVER["HTTP_HOST"];
             $mailProcessor = new DefaultMailProcessor($mailer, 'Confirm your email', 'email/confirm_email.html.twig');
             $mailProcessor->send($email, [
@@ -107,10 +106,10 @@ class SecurityController extends AbstractController
         return $this->render('security/step2.html.twig');
     }
 
-    private function createConfirmEmailUri(int $userId) : string
+    private function createConfirmEmailUri(string $forEncrypt) : string
     {
         $uri = $this->generateUrl('confirmed', [
-            'userId' => $userId
+            'userHash' => md5($forEncrypt)
         ], UrlGeneratorInterface::ABSOLUTE_URL);
         return $uri;
     }

@@ -64,7 +64,7 @@ class User implements InstagramUserInterface
      * @var string
      * @ORM\Column(name="personal_hash", type="string", unique=true, nullable=true)
      */
-    private ?string $personalHash;
+    private ?string $personalHash = null;
 
     /**
      * @var bool
@@ -206,6 +206,16 @@ class User implements InstagramUserInterface
     public function getIsActivated(): bool
     {
         return $this->isActivated;
+    }
+
+    public function getPersonalHash(): ?string
+    {
+        return $this->personalHash;
+    }
+
+    public function setPersonalHash($personalHash): void
+    {
+        $this->personalHash = $personalHash;
     }
 
     /**

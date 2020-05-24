@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Service\Instagram\InstagramApi;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

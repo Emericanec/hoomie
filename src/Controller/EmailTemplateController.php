@@ -19,13 +19,14 @@ class EmailTemplateController extends AbstractController
 {
 
     /**
-     *   @Route("email/confirmed/{userId}", name="confirmed")
-     *   @return Response
+     * @Route("email/confirmed/{userHash}", name="confirmed")
+     * @param string $userHash
+     * @return Response
      */
-    public function sendMessageToConfirm(int $userId) : Response
+    public function sendMessageToConfirm(string $userHash) : Response
     {
         $em = $this->getDoctrine()->getManager();
-        $currentUser = $em->getRepository(User::class)->find($userId);
+        $currentUser = $em->getRepository(User::class)->findOneBy(['personalHash' => $userHash]);
 
         if (empty($currentUser)) {
             $message = 'Что-то пошло не так';
