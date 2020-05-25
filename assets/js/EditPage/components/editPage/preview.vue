@@ -13,12 +13,12 @@
                 </div>
             </div>
             <br>-->
-            <draggable v-model="linkListDraggable" tag="div" handle=".handle" class="row">
-                <div v-for="link in linkListDraggable" :class="getLinkColClass(link)">
+            <draggable v-model="nodeListDraggable" tag="div" handle=".handle" class="row">
+                <div v-for="node in nodeListDraggable" :class="getLinkColClass(node)">
                     <div class="preview-drag-block">
                         <i class="nav-icon fas fa-arrows-alt-v handle preview-drag-icon"></i>
                     </div>
-                    <styled-button :link="link" :style-id="buttonStyle.id" :click-callback="editLinkCallback"></styled-button>
+                    <styled-button :link="node" :style-id="buttonStyle.id" :click-callback="editLinkCallback"></styled-button>
                 </div>
             </draggable>
         </div>
@@ -59,7 +59,7 @@
                 let classes = this.buttonStyle.hasOwnProperty('classes') ? this.buttonStyle.classes : '';
                 return 'btn btn-block btn-lg ' + classes;
             },
-            linkListDraggable: {
+            nodeListDraggable: {
                 get() {
                     return this.value
                 },
@@ -71,7 +71,7 @@
         },
         methods: {
             getLinkColClass(link) {
-                let size = link.size || link.settings.size || 12;
+                let size = link.size || link.jsonSettings.size || 12;
                 size = parseInt(size);
                 return 'col-' + size;
             },

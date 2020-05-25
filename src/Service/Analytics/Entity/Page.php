@@ -96,8 +96,8 @@ class Page
         $search->addIndex(ElasticSearchIndex::INDEX_EVENTS);
 
         $args = [];
-        foreach ($this->page->getLinks() as $link) {
-            $args[] = $this->queryBuilder->query()->term()->setTerm(Event::PARAM_EVENT_ID, $link->getId());
+        foreach ($this->page->getNodes() as $node) {
+            $args[] = $this->queryBuilder->query()->term()->setTerm(Event::PARAM_EVENT_ID, $node->getId());
         }
 
         $filter = $this->queryBuilder->query()->bool()->addMust([

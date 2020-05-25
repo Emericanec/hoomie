@@ -7,7 +7,7 @@
                          :page-id="id"
                          :button-style="buttonStyle"
                          :background-style="backgroundStyle"
-                         v-model="links"
+                         v-model="nodes"
                          :add-new-block-callback="toAddBlock"
                          :edit-link-callback="toLinkForm">
                 </preview>
@@ -55,7 +55,7 @@
         data() {
             return {
                 mode: MODE_MAIN,
-                links: [],
+                nodes: [],
                 buttonStyle: null,
                 backgroundStyle: null,
                 linkEdit: null
@@ -83,7 +83,10 @@
                 this.$http.get('/api/page/' + this.id + '/getLayout').then(response => {
                     this.buttonStyle = response.data.button_style;
                     this.backgroundStyle = response.data.background_style;
-                    this.links = response.data.links;
+                    this.nodes = response.data.nodes.map((currentValue) => {
+                        currentValue.jsonSettings = JSON.parse(currentValue.jsonSettings);
+                        return currentValue;
+                    });
                 });
             },
             toLinkForm(event, link = {}) {

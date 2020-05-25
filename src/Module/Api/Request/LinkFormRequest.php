@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Module\Api\Request;
 
-use App\Entity\Link;
+use App\Entity\Node;
 use App\Entity\Page;
 use App\Entity\User;
 use App\Helper\JsonRequest;
-use App\Repository\LinkRepository;
+use App\Repository\NodeRepository;
 use App\Repository\PageRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -42,19 +42,19 @@ class LinkFormRequest
 
     private string $icon;
 
-    private ?int $linkId = null;
+    private ?int $nodeId = null;
 
     private ?Page $page = null;
 
-    private ?Link $link = null;
+    private ?Node $node = null;
 
-    public function __construct(Request $request, User $user, int $pageId, int $linkId = null)
+    public function __construct(Request $request, User $user, int $pageId, int $nodeId = null)
     {
         $this->request = $request;
         $this->jsonRequest = new JsonRequest($this->request);
         $this->user = $user;
         $this->pageId = $pageId;
-        $this->linkId = $linkId;
+        $this->nodeId = $nodeId;
         $this->title = $this->getJsonRequest()->getString(self::PARAM_TITLE);
         $this->url = $this->getJsonRequest()->getString(self::PARAM_URL, '');
         $this->backgroundColor = $this->getJsonRequest()->getString(self::PARAM_BACKGROUND_COLOR, '#007bff');
@@ -63,7 +63,7 @@ class LinkFormRequest
         $this->icon = $this->getJsonRequest()->getString(self::PARAM_ICON, '');
     }
 
-    public function handle(PageRepository $pageRepository, LinkRepository $linkRepository): void
+    public function handle(PageRepository $pageRepository, NodeRepository $nodeRepository): void
     {
         $this->page = $pageRepository->findOneBy(['id' => $this->pageId, 'user' => $this->user->getId()]);
 
@@ -71,11 +71,11 @@ class LinkFormRequest
             throw new AccessDeniedHttpException('Permission denied');
         }
 
-        if (null === $this->linkId) {
-            $this->link = new Link();
+        if (null === $this->nodeId) {
+            $this->node = new Node();
         } else {
-            $this->link = $linkRepository->find($this->linkId);
-            if (null === $this->link || $this->link->getPage()->getId() !== $this->page->getId()) {
+            $this->node = $nodeRepository->find($this->nodeId);
+            if (null === $this->node || $this->node->getPage()->getId() !== $this->page->getId()) {
                 throw new AccessDeniedHttpException('Permission denied');
             }
         }
@@ -96,9 +96,9 @@ class LinkFormRequest
         return $this->page;
     }
 
-    public function getLink(): Link
+    public function getNode(): Node
     {
-        return $this->link;
+        return $this->node;
     }
 
     public function getTitle(): string

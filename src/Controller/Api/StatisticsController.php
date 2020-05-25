@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
-use App\Repository\LinkRepository;
+use App\Repository\NodeRepository;
 use App\Response\EarlyResponse;
 use App\Service\Analytics\Logger;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,22 +14,22 @@ use Symfony\Component\Routing\Annotation\Route;
 class StatisticsController extends AbstractController
 {
     /**
-     * @Route("/api/statistics/{linkId}")
-     * @param LinkRepository $linkRepository
-     * @param int $linkId
+     * @Route("/api/statistics/{nodeId}")
+     * @param NodeRepository $nodeRepository
+     * @param int $nodeId
      * @return EarlyResponse
      */
-    public function visitLink(LinkRepository $linkRepository, int $linkId): EarlyResponse
+    public function visitLink(NodeRepository $nodeRepository, int $nodeId): EarlyResponse
     {
         $response = new EarlyResponse();
-        $response->setTerminateCallback(static function() use ($linkRepository, $linkId) {
-            $link = $linkRepository->find($linkId);
+        $response->setTerminateCallback(static function() use ($nodeRepository, $nodeId) {
+            $node = $nodeRepository->find($nodeId);
 
-            if (null === $link) {
+            if (null === $node) {
                 throw new NotFoundHttpException();
             }
 
-            Logger::logVisitLink($link->getPage()->getId(), $link->getId());
+            Logger::logVisitLink($node->getPage()->getId(), $node->getId());
         });
 
         return $response;

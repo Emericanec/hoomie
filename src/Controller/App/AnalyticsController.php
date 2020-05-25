@@ -19,7 +19,7 @@ class AnalyticsController extends AbstractAppController
     {
         $page = $this->getCurrentUser()->getMainPage();
         $pageStats = new PageStats($page);
-        $statistics = new LinkStatisticsCollectionDTO($page->getSortedLinks());
+        $statistics = new LinkStatisticsCollectionDTO($page->getSortedNodes());
 
         return $this->render('app/analytics/index.html.twig', [
             'userId' => $this->getCurrentUser()->getId(),

@@ -38,8 +38,8 @@
         name: "styledButton",
         computed: {
             borderColor() {
-                if (this.link.hasOwnProperty('settings')) {
-                    return this.link.settings.backgroundColor
+                if (this.link.hasOwnProperty('jsonSettings')) {
+                    return this.link.jsonSettings.backgroundColor
                 }
                 return  this.link.color;
             },
@@ -55,8 +55,8 @@
                     return this.borderColor;
                 }
 
-                if (this.link.hasOwnProperty('settings')) {
-                    return this.link.settings.textColor
+                if (this.link.hasOwnProperty('jsonSettings')) {
+                    return this.link.jsonSettings.textColor
                 }
                 return this.link.textColor;
             },
@@ -67,8 +67,8 @@
                 return this.borderColor;
             },
             hoverTextColor() {
-                if (this.link.hasOwnProperty('settings')) {
-                    return this.link.settings.textColor
+                if (this.link.hasOwnProperty('jsonSettings')) {
+                    return this.link.jsonSettings.textColor
                 }
                 return this.link.textColor;
             },
@@ -95,13 +95,18 @@
         methods: {
             getLinkText(link) {
                 let icon = '';
+                let title = '';
                 if (link.hasOwnProperty('icon') && link.icon.length) {
                     icon = `<i class="${link.icon}"></i>`;
-                } else if (link.hasOwnProperty('settings') && link.settings.hasOwnProperty('icon') && link.settings.icon.length) {
-                    icon = `<i class="${link.settings.icon}"></i>`;
+                } else if (link.hasOwnProperty('jsonSettings') && link.jsonSettings.hasOwnProperty('icon') && link.jsonSettings.icon.length) {
+                    icon = `<i class="${link.jsonSettings.icon}"></i>`;
                 }
 
-                let title = link.title || (icon.length ? '' : 'Example title');
+                if (link.hasOwnProperty('title') && link.title.length) {
+                    title = link.title;
+                } else if (link.hasOwnProperty('jsonSettings') && link.jsonSettings.hasOwnProperty('title') && link.jsonSettings.title.length) {
+                    title = link.jsonSettings.title;
+                }
 
                 return `${icon} ${title}`;
             }

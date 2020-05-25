@@ -41,10 +41,10 @@ class Page
     private User $user;
 
     /**
-     * @var Collection|Link[]
-     * @ORM\OneToMany(targetEntity="App\Entity\Link", mappedBy="page")
+     * @var Collection|Node[]
+     * @ORM\OneToMany(targetEntity="App\Entity\Node", mappedBy="page")
      */
-    private Collection $links;
+    private Collection $nodes;
 
     /**
      * @ORM\Column(type="string", length=250)
@@ -111,29 +111,29 @@ class Page
     }
 
     /**
-     * @return Link[]
+     * @return Node[]
      */
-    public function getLinks(): array
+    public function getNodes(): array
     {
-        $links = $this->links->toArray();
-        return array_filter($links, static function(Link $link) {
-            return $link->getStatus() !== Link::STATUS_DELETED;
+        $nodes = $this->nodes->toArray();
+        return array_filter($nodes, static function(Node $node) {
+            return $node->getStatus() !== Node::STATUS_DELETED;
         });
     }
 
     /**
-     * @return Link[]
+     * @return Node[]
      */
-    public function getSortedLinks(): array
+    public function getSortedNodes(): array
     {
-        $links = $this->getLinks();
-        usort($links, static function(Link $x, Link $y) {
+        $nodes = $this->getNodes();
+        usort($nodes, static function(Node $x, Node $y) {
             if ($x->getSort() === $y->getSort()) {
                 return 0;
             }
 
             return $x->getSort() > $y->getSort() ? 1 : -1;
         });
-        return $links;
+        return $nodes;
     }
 }
