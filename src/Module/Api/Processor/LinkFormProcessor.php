@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Module\Api\Processor;
 
-use App\Entity\Link;
+use App\Entity\Node;
+use App\Entity\Node\LinkNodeSettings;
 use App\Module\Api\Request\LinkFormRequest;
 use Doctrine\Persistence\ObjectManager;
 
@@ -20,24 +21,25 @@ class LinkFormProcessor
         $this->objectManager = $objectManager;
     }
 
-    public function process(): Link
+    public function process(): Node
     {
-        $settings = [
-            Link::SETTINGS_FIELD_URL => $this->linkFormRequest->getUrl(),
-            Link::SETTINGS_FIELD_BACKGROUND_COLOR => $this->linkFormRequest->getBackgroundColor(),
-            Link::SETTINGS_FIELD_TEXT_COLOR => $this->linkFormRequest->getTextColor(),
-            Link::SETTINGS_FIELD_SIZE => $this->linkFormRequest->getSize(),
-            Link::SETTINGS_FIELD_ICON => $this->linkFormRequest->getIcon(),
-        ];
+        $node = $this->linkFormRequest->getNode();
+        $node->setType(Node::TYPE_LINK);
+        $node->setPage($this->linkFormRequest->getPage());
 
-        $link = $this->linkFormRequest->getLink();
-        $link->setTitle($this->linkFormRequest->getTitle());
-        $link->setPage($this->linkFormRequest->getPage());
-        $link->setRawSettings(json_encode($settings, JSON_THROW_ON_ERROR, 512));
+        $settings = new LinkNodeSettings();
+        $settings->setUrl($this->linkFormRequest->getUrl());
+        $settings->setTitle($this->linkFormRequest->getTitle());
+        $settings->setBackgroundColor($this->linkFormRequest->getBackgroundColor());
+        $settings->setTextColor($this->linkFormRequest->getTextColor());
+        $settings->setSize($this->linkFormRequest->getSize());
+        $settings->setIcon($this->linkFormRequest->getIcon());
 
-        $this->objectManager->persist($link);
+        $node->setJsonSettings($settings->getJson());
+
+        $this->objectManager->persist($node);
         $this->objectManager->flush();
 
-        return $link;
+        return $node;
     }
 }

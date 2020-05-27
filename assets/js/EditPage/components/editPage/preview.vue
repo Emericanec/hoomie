@@ -1,10 +1,10 @@
 <template>
     <div>
         <button class="btn btn-outline-dark btn-block btn-lg preview-add-new-link-button"
-                v-on:click="addNewLinkCallback()">Add New Link
+                v-on:click="addNewBlockCallback()">Add New Block
         </button>
         <div class="preview-edit-page" :style="backgroundColor">
-            <div class="text-center">
+            <!--<div class="text-center">
                 <img style="width: 100px;" class="img-circle elevation-2"
                      src="https://scontent-ams4-1.cdninstagram.com/v/t51.2885-19/s150x150/54247715_2195250907184796_8702997699101720576_n.jpg?_nc_ht=scontent-ams4-1.cdninstagram.com&amp;_nc_ohc=MEyEmqsvTzIAX_wg9iv&amp;oh=152b9cd35d3d5283e03806c14fe4e2d3&amp;oe=5EC9B20C">
                 <br><br>
@@ -12,13 +12,13 @@
                     @took_took_kto_tam
                 </div>
             </div>
-            <br>
-            <draggable v-model="linkListDraggable" tag="div" handle=".handle" class="row">
-                <div v-for="link in linkListDraggable" :class="getLinkColClass(link)">
+            <br>-->
+            <draggable v-model="nodeListDraggable" tag="div" handle=".handle" class="row">
+                <div v-for="node in nodeListDraggable" :class="getLinkColClass(node)">
                     <div class="preview-drag-block">
                         <i class="nav-icon fas fa-arrows-alt-v handle preview-drag-icon"></i>
                     </div>
-                    <styled-button :link="link" :style-id="buttonStyle.id" :click-callback="editLinkCallback"></styled-button>
+                    <styled-button :link="node" :style-id="buttonStyle.id" :click-callback="editLinkCallback"></styled-button>
                 </div>
             </draggable>
         </div>
@@ -44,7 +44,7 @@
             value: {
                 type: Array
             },
-            addNewLinkCallback: {
+            addNewBlockCallback: {
                 type: Function
             },
             editLinkCallback: {
@@ -59,7 +59,7 @@
                 let classes = this.buttonStyle.hasOwnProperty('classes') ? this.buttonStyle.classes : '';
                 return 'btn btn-block btn-lg ' + classes;
             },
-            linkListDraggable: {
+            nodeListDraggable: {
                 get() {
                     return this.value
                 },
@@ -71,7 +71,7 @@
         },
         methods: {
             getLinkColClass(link) {
-                let size = link.size || link.settings.size || 12;
+                let size = link.size || link.jsonSettings.size || 12;
                 size = parseInt(size);
                 return 'col-' + size;
             },

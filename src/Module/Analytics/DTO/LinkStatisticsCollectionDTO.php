@@ -4,26 +4,26 @@ declare(strict_types=1);
 
 namespace App\Module\Analytics\DTO;
 
-use App\Entity\Link;
+use App\Entity\Node;
 
 class LinkStatisticsCollectionDTO
 {
     /** @var LinkStatisticsDTO[] */
-    private array $links;
+    private array $nodes;
 
     /**
      * LinkStatisticsCollectionDTO constructor.
-     * @param Link[] $links
+     * @param Node[] $nodes
      */
-    public function __construct(array $links)
+    public function __construct(array $nodes)
     {
-        foreach ($links as $link) {
-            $this->links[] = new LinkStatisticsDTO($link);
+        foreach ($nodes as $node) {
+            $this->nodes[] = new LinkStatisticsDTO($node);
         }
     }
 
     public function getCollection(): array
     {
-        return $this->links;
+        return $this->nodes;
     }
 }

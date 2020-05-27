@@ -4,51 +4,45 @@ declare(strict_types=1);
 
 namespace App\Module\Analytics\DTO;
 
-use App\Entity\Link;
+use App\Entity\Node;
 use App\Service\Analytics\Entity\Link as LinkStats;
 
 class LinkStatisticsDTO
 {
-    private Link $link;
+    private Node $node;
 
-    public function __construct(Link $link)
+    public function __construct(Node $node)
     {
-        $this->link = $link;
+        $this->node = $node;
     }
 
-    public function getLink(): Link
+    public function getNode(): Node
     {
-        return $this->link;
+        return $this->node;
     }
 
     public function getIcon(): string
     {
-        $settings = $this->getLink()->getSettings();
-        $icon = $settings[Link::SETTINGS_FIELD_ICON] ?? '';
-        return !empty($icon) ? (string)$icon : 'fas fa-link';
+        return 'fas fa-link';
     }
 
     public function getTitle(): string
     {
-        return $this->getLink()->getTitle();
+        return '';
     }
 
     public function getBackgroundColor(): string
     {
-        $settings = $this->getLink()->getSettings();
-        $color = $settings[Link::SETTINGS_FIELD_BACKGROUND_COLOR] ?? '';
-        return !empty($color) ? (string)$color : '#17a2b8';
+        return '#17a2b8';
     }
 
     public function getTextColor(): string
     {
-        $settings = $this->getLink()->getSettings();
-        $color = $settings[Link::SETTINGS_FIELD_TEXT_COLOR] ?? '';
-        return !empty($color) ? (string)$color : '#ffffff';
+        return '#ffffff';
     }
 
     public function getTotalClicks(): int
     {
-        return (new LinkStats($this->getLink()))->getTotalClicks();
+        return (new LinkStats($this->getNode()))->getTotalClicks();
     }
 }

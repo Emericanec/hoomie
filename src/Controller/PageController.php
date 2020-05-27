@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Link;
+use App\Entity\Node;
+use App\Entity\Node\LinkNodeSettings;
 use App\Entity\Page;
 use App\Entity\Setting;
 use App\Manager\LinkStyleManager;
@@ -35,8 +36,8 @@ class PageController extends AbstractController
         $setting = $user->getSettings();
 
         $links = [];
-        foreach ($page->getSortedLinks() as $link) {
-            $links[] = $this->getLinkStyleManager($link, $setting);
+        foreach ($page->getSortedNodes() as $node) {
+            $links[] = $this->getLinkStyleManager($node, $setting);
         }
 
         Logger::logVisitPage($page->getUser()->getId(), $page->getId());
@@ -48,13 +49,17 @@ class PageController extends AbstractController
         ]);
     }
 
-    private function getLinkStyleManager(Link $link, Setting $setting): LinkStyleManager
+    private function getLinkStyleManager(Node $node, Setting $setting): LinkStyleManager
     {
-        $settings = $link->getSettings();
-        $backgroundColor = $settings[Link::SETTINGS_FIELD_BACKGROUND_COLOR] ?? '#ffffff';
-        $textColor = $settings[Link::SETTINGS_FIELD_TEXT_COLOR] ?? '#000000';
-        $icon = $settings[Link::SETTINGS_FIELD_ICON] ?? '';
-        $url = $settings[Link::SETTINGS_FIELD_URL] ?? '';
-        return new LinkStyleManager($setting->getButtonStyleId(), $link->getId(), $link->getTitle(), $textColor, $backgroundColor, $icon, $url);
+        $settings = LinkNodeSettings::fromJson($node->getJsonSettings());
+        return new LinkStyleManager(
+            $setting->getButtonStyleId(),
+            $node->getId(),
+            $settings->getTitle(),
+            $settings->getTextColor(),
+            $settings->getBackgroundColor(),
+            $settings->getIcon(),
+            $settings->getUrl()
+        );
     }
 }

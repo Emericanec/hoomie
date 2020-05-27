@@ -131,12 +131,12 @@
             if (this.editLink.hasOwnProperty('id')) {
                 this.form = {
                     id: this.editLink.id,
-                    url: this.editLink.settings.url || '',
-                    title: this.editLink.title || '',
-                    size: this.editLink.settings.size || 12,
-                    color: this.editLink.settings.backgroundColor || '#000000',
-                    textColor: this.editLink.settings.textColor || '#ffffff',
-                    icon: this.editLink.settings.icon || ''
+                    url: this.editLink.jsonSettings.url || '',
+                    title: this.editLink.jsonSettings.title || '',
+                    size: this.editLink.jsonSettings.size || 12,
+                    color: this.editLink.jsonSettings.backgroundColor || '#000000',
+                    textColor: this.editLink.jsonSettings.textColor || '#ffffff',
+                    icon: this.editLink.jsonSettings.icon || ''
                 };
             } else {
                 this.form = {
@@ -204,14 +204,14 @@
                 });
             },
             deleteLink() {
-                const url = '/api/page/' + this.pageId + '/deleteLink/' + this.form.id;
+                const url = '/api/page/' + this.pageId + '/deleteNode/' + this.form.id;
                 this.$http.get(url).then(response => {
                     $('.modal-backdrop').remove();
                     this.backCallback();
                 });
             },
             getColClass(link) {
-                let size = link.size || link.settings.size || 12;
+                let size = link.size || link.jsonSettings.size || 12;
                 size = parseInt(size);
                 return 'col-' + size + ' offset-' + ((12 - size) / 2);
             },

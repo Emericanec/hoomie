@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-
 namespace App\Service\Analytics\Entity;
 
-use App\Entity\Link as DbLink;
+use App\Entity\Node;
 use App\Service\Analytics\Event;
 use App\Service\ElasticSearch\ElasticSearch;
 use App\Service\ElasticSearch\ElasticSearchIndex;
@@ -20,13 +19,13 @@ class Link
 
     private QueryBuilder $queryBuilder;
 
-    private DbLink $link;
+    private Node $node;
 
-    public function __construct(DbLink $link)
+    public function __construct(Node $node)
     {
         $this->client = ElasticSearch::getClient();
         $this->queryBuilder = new QueryBuilder();
-        $this->link = $link;
+        $this->node = $node;
     }
 
     public function getTotalClicks(): int
@@ -38,7 +37,7 @@ class Link
 
         $filter = $this->queryBuilder->query()->bool()->addMust([
             $this->queryBuilder->query()->match(Event::PARAM_EVENT_TYPE, Event::TYPE_VISIT_LINK),
-            $this->queryBuilder->query()->match(Event::PARAM_EVENT_ID, $this->link->getId())
+            $this->queryBuilder->query()->match(Event::PARAM_EVENT_ID, $this->node->getId())
         ]);
 
         $aggregation = $this->queryBuilder->aggregation()->value_count($aggregationName, Event::PARAM_EVENT_ID);

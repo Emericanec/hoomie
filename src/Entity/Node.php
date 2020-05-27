@@ -8,24 +8,20 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\LinkRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\NodeRepository")
  * @ORM\Table(
- *     name="link",
+ *     name="node",
  *     indexes={
  *          @ORM\Index(name="idx_sort", columns={"sort"})
  *     },
  * )
  */
-class Link
+class Node
 {
     public const STATUS_DELETED = 0;
     public const STATUS_ACTIVE  = 1;
 
-    public const SETTINGS_FIELD_URL                 = 'url';
-    public const SETTINGS_FIELD_BACKGROUND_COLOR    = 'backgroundColor';
-    public const SETTINGS_FIELD_TEXT_COLOR          = 'textColor';
-    public const SETTINGS_FIELD_SIZE                = 'size';
-    public const SETTINGS_FIELD_ICON                = 'icon';
+    public const TYPE_LINK = 1;
 
     /**
      * @ORM\Id()
@@ -40,14 +36,14 @@ class Link
     private Page $page;
 
     /**
-     * @ORM\Column(type="string", length=250)
-     */
-    private string $title;
-
-    /**
      * @ORM\Column(type="text")
      */
     private string $settings;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private int $type;
 
     /**
      * @ORM\Column(type="integer", options={"default": 0})
@@ -61,7 +57,6 @@ class Link
 
     /**
      * @Groups("default")
-     * @return int
      */
     public function getId(): int
     {
@@ -70,7 +65,6 @@ class Link
 
     /**
      * @Groups("default")
-     * @return int
      */
     public function getSort(): int
     {
@@ -78,7 +72,7 @@ class Link
     }
 
     /**
-     * @Groups({"full"})
+     * @Groups("full")
      */
     public function getPage(): Page
     {
@@ -92,37 +86,7 @@ class Link
 
     /**
      * @Groups("default")
-     * @return string
      */
-    public function getTitle(): string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): void
-    {
-        $this->title = $title;
-    }
-
-    public function getRawSettings(): string
-    {
-        return $this->settings;
-    }
-
-    public function setRawSettings(string $settings): void
-    {
-        $this->settings = $settings;
-    }
-
-    /**
-     * @Groups("default")
-     * @return array
-     */
-    public function getSettings(): array
-    {
-        return json_decode($this->getRawSettings(), true, 512, JSON_THROW_ON_ERROR);
-    }
-
     public function getStatus(): int
     {
         return $this->status;
@@ -131,5 +95,31 @@ class Link
     public function setStatus(int $status): void
     {
         $this->status = $status;
+    }
+
+    /**
+     * @Groups("default")
+     */
+    public function getJsonSettings(): string
+    {
+        return $this->settings;
+    }
+
+    public function setJsonSettings(string $settings): void
+    {
+        $this->settings = $settings;
+    }
+
+    /**
+     * @Groups("default")
+     */
+    public function getType(): int
+    {
+        return $this->type;
+    }
+
+    public function setType(int $type): void
+    {
+        $this->type = $type;
     }
 }
